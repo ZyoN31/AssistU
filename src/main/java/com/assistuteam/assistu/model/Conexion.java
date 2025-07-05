@@ -5,85 +5,102 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+/** @author assistu_team **/
+
 public class Conexion {
     public static int SQLite = 1;
-   public static int MariaDB = 2;
-   private String driverClass;
-   private String server;
-   private long port;
-   private static String dataBase = "pokemonesdb.db";
-   private String user;
-   private String password;
-   private String url;
-   private static Conexion instance;
-   private Connection conexion;
+    public static int MariaDB = 2;
+    private String claseControlador;
+    private String servidor;
+    private long puerto;
+    private static String baseDatos = "assistu_db.db";
+    private String usuario;
+    private String contrasena;
+    private String url;
+    private static Conexion instancia;
+    private Connection conexion;
 
-   public static Conexion getInstance() throws Exception {
-      if (instance == null) {
-         instance = new Conexion(SQLite);
-      }
+    /**
+     * Obtiene la instancia unica de la clase Conexion.
+     * @return La instancia unica de Conexion.
+     * @throws Exception Si ocurre un error al crear la instancia.
+     */
+    public static Conexion obtenerInstancia() throws Exception {
+        if (instancia == null) {
+            instancia = new Conexion(SQLite);
+        }
+        return instancia;
+    }
 
-      return instance;
-   }
+    /**
+     * Constructor de la clase Conexion.
+     * @param tipoServidor Tipo de servidor (1 para SQLite, 2 para MariaDB).
+     * @throws Exception Si el tipo de servidor no es soportado.
+     */
+    public Conexion(int tipoServidor) throws Exception {
+        switch (tipoServidor) {
+            case 1:
+                this.configurarSQLite();
+                break;
+            case 2:
+                this.configurarMariaDB();
+                break;
+            default:
+                throw new Exception("Tipo de servidor no soportado. Use 1 para SQLite o 2 para MariaDB.");
+        }
+    }
 
-   public Conexion(int typeServer) throws Exception {
-      switch (typeServer) {
-         case 1:
-            this.obtainDataSQLite();
-            break;
-         case 2:
-            this.obtainDataMariaDB();
-            break;
-         default:
-            throw new Exception("Tipo de servidor no soportado. Use 1 para SQLite o 2 para MariaDB.");
-      }
+    private void configurarSQLite() {
+        this.claseControlador = "org.sqlite.JDBC";
+        this.servidor = "";
+        this.puerto = 0L;
+        this.usuario = "";
+        this.contrasena = "";
+        this.url = "jdbc:sqlite:" + baseDatos;
+    }
 
-   }
+    private void configurarMariaDB() {
+        this.claseControlador = "org.mariadb.jdbc.Driver";
+        this.servidor = "localhost";
+        this.puerto = 3306;
+        this.usuario = "";
+        this.contrasena = "";
+        this.url = "jdbc:mariadb://" + this.servidor + ":" + this.puerto + "/" + baseDatos;
+    }
 
-   private void obtainDataSQLite() {
-      this.driverClass = "org.sqlite.JDBC";
-      this.server = "";
-      this.port = 0L;
-      this.user = "";
-      this.password = "";
-      this.url = "jdbc:sqlite:" + dataBase;
-   }
+    /**
+     * Conecta a la base de datos.
+     * @return La conexion establecida.
+     * @throws Exception Si ocurre un error al conectar.
+     */
+    public Connection conectar() throws Exception {
+        try {
+            if (this.conexion == null || this.conexion.isClosed()) {
+                Class.forName(this.claseControlador);
+                this.conexion = DriverManager.getConnection(this.url, this.usuario, this.contrasena);
+            }
+            return this.conexion;
+        } catch (SQLException | ClassNotFoundException error) {
+            System.out.println("Error al conectar a la base de datos: " + error.getMessage());
+            throw error;
+        }
+    }
 
-   private void obtainDataMariaDB() {
-      this.driverClass = "org.mariadb.jdbc.Driver";
-      this.server = "localhost";
-      this.port = 3306L;
-      this.user = "";
-      this.password = "";
-      this.url = "jdbc:mariadb://" + this.server + ":" + this.port + "/" + dataBase;
-   }
-
-   public Connection connect() throws Exception {
-      try {
-         if (this.conexion == null || this.conexion.isClosed()) {
-            Class.forName(this.driverClass);
-            this.conexion = DriverManager.getConnection(this.url, this.user, this.password);
-         }
-
-         return this.conexion;
-      } catch (SQLException | ClassNotFoundException var2) {
-         System.out.println("Error al conectar a la base de datos: " + var2.getMessage());
-         throw var2;
-      }
-   }
-
-   public boolean disconnect() throws Exception {
-      try {
-         if (this.conexion != null) {
-            this.conexion.close();
-         }
-
-         return true;
-      } catch (SQLException var2) {
-         PrintStream var10000 = System.out;
-         String var10001 = this.getClass().getName();
-         var10000.println("Error: " + var10001 + " - " + var2.getMessage());
-         return false;
-      }
-   }
+    /**
+     * Desconecta de la base de datos.
+     * @return true si la desconexion fue exitosa, false en caso contrario.
+     * @throws Exception Si ocurre un error al desconectar.
+     */
+    public boolean desconectar() throws Exception {
+        try {
+            if (this.conexion != null) {
+                this.conexion.close();
+            }
+            return true;
+        } catch (SQLException error) {
+            PrintStream salida = System.out;
+            salida.println("Error: " + this.getClass().getName() + " - " + error.getMessage());
+            return false;
+        }
+    }
 }
