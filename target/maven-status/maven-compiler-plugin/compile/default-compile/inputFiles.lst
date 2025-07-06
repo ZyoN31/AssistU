@@ -1,0 +1,10 @@
+/home/runner/work/AssistU/AssistU/src/main/java/com/assistuteam/assistu/AssistU.java
+/home/runner/work/AssistU/AssistU/src/main/java/com/assistuteam/assistu/model/Conexion.java
+/home/runner/work/AssistU/AssistU/src/main/java/com/assistuteam/assistu/model/entity/Administrador.java
+/home/runner/work/AssistU/AssistU/src/main/java/com/assistuteam/assistu/model/entity/Alumno.java
+/home/runner/work/AssistU/AssistU/src/main/java/com/assistuteam/assistu/model/entity/Docente.java
+/home/runner/work/AssistU/AssistU/src/main/java/com/assistuteam/assistu/model/entity/Entidad.java
+/home/runner/work/AssistU/AssistU/src/main/java/com/assistuteam/assistu/model/repository/Repositorio.java
+/home/runner/work/AssistU/AssistU/src/main/java/com/assistuteam/assistu/model/repository/RepositorioAdministrador.java
+/home/runner/work/AssistU/AssistU/src/main/java/com/assistuteam/assistu/model/repository/RepositorioAlumno.java
+/home/runner/work/AssistU/AssistU/src/main/java/com/assistuteam/assistu/model/repository/RepositorioDocente.java
