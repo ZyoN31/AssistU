@@ -7,6 +7,6 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class Entidad {
+public class Docente {
     
 }

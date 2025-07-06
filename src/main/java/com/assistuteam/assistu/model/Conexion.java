@@ -1,6 +1,5 @@
 package com.assistuteam.assistu.model;
 
-import java.io.PrintStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -13,17 +12,17 @@ public class Conexion {
     private String claseControlador;
     private String servidor;
     private long puerto;
-    private static String baseDatos = "assistu_db.db";
+    private static String baseDatos = "assistu_db.db"; // Nombre de la base de datos para SQLite/MariaDB
     private String usuario;
-    private String contrasena;
+    private String contrasenia;
     private String url;
     private static Conexion instancia;
     private Connection conexion;
 
     /**
-     * Obtiene la instancia unica de la clase Conexion.
-     * @return La instancia unica de Conexion.
-     * @throws Exception Si ocurre un error al crear la instancia.
+     * Obtiene la instancia unica de la clase Conexion
+     * @return La instancia unica de Conexion
+     * @throws Exception Si ocurre un error al crear la instancia
      */
     public static Conexion obtenerInstancia() throws Exception {
         if (instancia == null) {
@@ -33,29 +32,24 @@ public class Conexion {
     }
 
     /**
-     * Constructor de la clase Conexion.
-     * @param tipoServidor Tipo de servidor (1 para SQLite, 2 para MariaDB).
-     * @throws Exception Si el tipo de servidor no es soportado.
+     * Constructor de la clase Conexion
+     * @param tipoServidor Tipo de servidor (1 para SQLite, 2 para MariaDB)
+     * @throws Exception Si el tipo de servidor no es soportado
      */
     public Conexion(int tipoServidor) throws Exception {
         switch (tipoServidor) {
-            case 1:
-                this.configurarSQLite();
-                break;
-            case 2:
-                this.configurarMariaDB();
-                break;
-            default:
-                throw new Exception("Tipo de servidor no soportado. Use 1 para SQLite o 2 para MariaDB.");
+            case 1 -> this.configurarSQLite();
+            case 2 -> this.configurarMariaDB();
+            default -> throw new Exception("Tipo de servidor no soportado Use 1 para SQLite o 2 para MariaDB");
         }
     }
 
     private void configurarSQLite() {
         this.claseControlador = "org.sqlite.JDBC";
         this.servidor = "";
-        this.puerto = 0L;
+        this.puerto = 0;
         this.usuario = "";
-        this.contrasena = "";
+        this.contrasenia = "";
         this.url = "jdbc:sqlite:" + baseDatos;
     }
 
@@ -64,20 +58,20 @@ public class Conexion {
         this.servidor = "localhost";
         this.puerto = 3306;
         this.usuario = "";
-        this.contrasena = "";
+        this.contrasenia = "";
         this.url = "jdbc:mariadb://" + this.servidor + ":" + this.puerto + "/" + baseDatos;
     }
 
     /**
-     * Conecta a la base de datos.
-     * @return La conexion establecida.
-     * @throws Exception Si ocurre un error al conectar.
+     * Conecta a la base de datos
+     * @return La conexion establecida
+     * @throws Exception Si ocurre un error al conectar
      */
     public Connection conectar() throws Exception {
         try {
             if (this.conexion == null || this.conexion.isClosed()) {
                 Class.forName(this.claseControlador);
-                this.conexion = DriverManager.getConnection(this.url, this.usuario, this.contrasena);
+                this.conexion = DriverManager.getConnection(this.url, this.usuario, this.contrasenia);
             }
             return this.conexion;
         } catch (SQLException | ClassNotFoundException error) {
@@ -87,9 +81,9 @@ public class Conexion {
     }
 
     /**
-     * Desconecta de la base de datos.
-     * @return true si la desconexion fue exitosa, false en caso contrario.
-     * @throws Exception Si ocurre un error al desconectar.
+     * Desconecta de la base de datos
+     * @return true si la desconexion fue exitosa, false en caso contrario
+     * @throws Exception Si ocurre un error al desconectar
      */
     public boolean desconectar() throws Exception {
         try {
@@ -98,8 +92,7 @@ public class Conexion {
             }
             return true;
         } catch (SQLException error) {
-            PrintStream salida = System.out;
-            salida.println("Error: " + this.getClass().getName() + " - " + error.getMessage());
+            System.out.println("Error: " + this.getClass().getName() + " - " + error.getMessage());
             return false;
         }
     }
