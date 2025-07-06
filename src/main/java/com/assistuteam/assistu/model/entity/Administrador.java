@@ -6,7 +6,7 @@ import lombok.Setter;
 /** @author assistu_team **/
 
 @Getter
-@Setter
-public class Entidad {
+@Setter 
+public class Administrador {
     
 }
