@@ -15,12 +15,4 @@ public class Alumno extends Usuario {
     public Alumno() {
         super();
     }
-
-    public void consultarCalificaciones() {
-        // En curso: Implementación para consultar las calificaciones del alumno
-    }
-
-    public void solicitarRecursamiento(MateriaRecursa materia) {
-        // En curso: Implementación para solicitar el recursamiento de una materia
-    }
 }

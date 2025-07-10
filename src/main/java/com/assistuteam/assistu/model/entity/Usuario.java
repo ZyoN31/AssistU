@@ -8,9 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Usuario {
-    protected int id;
     protected String matricula;
-    protected String usuario;
     protected String contrasenia;
     protected String nombre;
     protected String apellidoPaterno;
