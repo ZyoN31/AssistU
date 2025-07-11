@@ -7,10 +7,10 @@ import com.assistuteam.assistu.model.entity.Docente;
 
 /** @author assistu_team **/
 
+@SuppressWarnings("all")
 public class RepositorioDocente extends Repositorio<Docente> {
     public RepositorioDocente() throws Exception {
-        super("Docentes", 9);
-        this.queryReadEverything = "SELECT * FROM Docentes";
+        super("Docentes", Docente.class.getName(), 9);
     }
 
     @Override

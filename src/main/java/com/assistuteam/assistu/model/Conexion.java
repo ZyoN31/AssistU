@@ -6,6 +6,7 @@ import java.sql.SQLException;
 
 /** @author assistu_team **/
 
+@SuppressWarnings("all")
 public class Conexion {
     public static int SQLite = 1;
     public static int MariaDB = 2;

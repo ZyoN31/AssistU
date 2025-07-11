@@ -11,9 +11,10 @@ import com.assistuteam.assistu.model.entity.Entidad;
 /** @author assistu_team **/
 
 public abstract class Repositorio <T extends Entidad> {
-    private Conexion conexion;
+    protected Conexion conexion;
     private PreparedStatement preparedStatement;
 
+    private String nombreClase;
     protected String queryCreate; // INSERT INTO table VALUES(?,...,?)
     protected String queryRead;   // SELECT * FROM table WHERE id IN = ?
     protected String queryUpdate; // REPLACE INTO table VALUES(?,...,?)
@@ -23,8 +24,9 @@ public abstract class Repositorio <T extends Entidad> {
     protected abstract T mappingObject(ResultSet result) throws Exception;
     protected abstract void setStatementParameters(PreparedStatement statement, T obj, boolean nuevoObjeto) throws Exception;
 
-    public Repositorio(String table, long parameters) throws Exception {
+    public Repositorio(String table, String nombreClase, long parameters) throws Exception {
         try {
+            this.nombreClase = nombreClase;
             conexion = Conexion.obtenerInstancia();
             iniciarQuerys(table, parameters);
         } catch (Exception e) {
@@ -44,7 +46,7 @@ public abstract class Repositorio <T extends Entidad> {
         queryCreate += ")";
 
         // Consulta para leer un registro por ID
-        queryRead = "SELECT * FROM " + table + " WHERE id IN (?)"; // Reemplazar ? con el campo id
+        queryRead = "SELECT * FROM " + table + " WHERE id_" + nombreClase + " = ?";
 
         // Consulta para actualizar un registro
         queryUpdate = "REPLACE INTO " + table + " VALUES("; // Reemplazar ?,...,? con los campos necesarios
@@ -55,10 +57,12 @@ public abstract class Repositorio <T extends Entidad> {
         queryUpdate += ")";
 
         // Consulta para eliminar un registro por ID
-        queryDelete = "DELETE FROM " + table + " WHERE id IN (?)"; // Reemplazar ? con el campo id
+        queryDelete = "DELETE FROM " + table + " WHERE id_" + nombreClase + " = ?";
+
+        // Consulta para leer todos los registros
+        queryReadEverything = "SELECT * FROM " + table;
     }
 
-    // Metodo para leer todos los registros
     public List<T> leerTodos() throws Exception {
         try {
             preparedStatement = conexion.conectar().prepareStatement(queryReadEverything);
@@ -83,11 +87,11 @@ public abstract class Repositorio <T extends Entidad> {
             preparedStatement = conexion.conectar().prepareStatement(queryCreate);
             setStatementParameters(preparedStatement, obj, true);
             long result = preparedStatement.executeUpdate();
-            return result > 0; // Retornar true si se crea correctamente, false en caso contrario
+            return result >= 0; // Retornar true si se crea correctamente, false en caso contrario
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage() + 
             "\nIn Class:\t" + this.getClass().getName() + 
-            "\nIn Method:\t create();");
+            "\nIn Method:\t crear();");
             throw e;
         }
     }
@@ -105,7 +109,7 @@ public abstract class Repositorio <T extends Entidad> {
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage() + 
             "\nIn Class:\t" + this.getClass().getName() + 
-            "\nIn Method:\t read();");
+            "\nIn Method:\t leer();");
             throw e;
         }
     }
@@ -119,7 +123,7 @@ public abstract class Repositorio <T extends Entidad> {
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage() + 
             "\nIn Class:\t" + this.getClass().getName() + 
-            "\nIn Method:\t update();");
+            "\nIn Method:\t actualizar();");
             throw e;
         }
     }
@@ -133,7 +137,7 @@ public abstract class Repositorio <T extends Entidad> {
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage() + 
             "\nIn Class:\t" + this.getClass().getName() + 
-            "\nIn Method:\t delete();");
+            "\nIn Method:\t borrar();");
             throw e;
         }
     }

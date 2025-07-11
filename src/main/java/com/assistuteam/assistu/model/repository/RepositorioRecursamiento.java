@@ -7,10 +7,10 @@ import com.assistuteam.assistu.model.entity.Recursamiento;
 
 /** @author assistu_team **/
 
+@SuppressWarnings("all")
 public class RepositorioRecursamiento extends Repositorio<Recursamiento> {
     public RepositorioRecursamiento() throws Exception {
-        super("Recursamientos", 6);
-        this.queryReadEverything = "SELECT * FROM Recursamientos";
+        super("Recursamientos", Recursamiento.class.getName(), 6);
     }
 
     @Override

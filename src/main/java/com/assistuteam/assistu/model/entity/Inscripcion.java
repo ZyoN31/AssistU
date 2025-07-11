@@ -12,16 +12,15 @@ import lombok.Setter;
 public class Inscripcion extends Entidad {
     private LocalDate fecha;
     private float calificacion;
-    private boolean estado;
+    private String estado;
     private Alumno alumno;
     private Recursamiento recursamiento;
 
     public Inscripcion() {
         super();
-        this.id = 0;
         this.fecha = LocalDate.now();
         this.calificacion = 0.0f;
-        this.estado = false;
+        this.estado = "";
         this.alumno = new Alumno();
         this.recursamiento = new Recursamiento();
     }
@@ -29,12 +28,11 @@ public class Inscripcion extends Entidad {
     @Override
     public String toString() {
         return "Inscripcion{" +
-                "id=" + id +
+                "id_alumno=" + (alumno != null ? alumno.getId() : "null") +
+                ", id_recursamiento=" + (recursamiento != null ? recursamiento.getId() : "null") +
                 ", fecha=" + fecha +
                 ", calificacion=" + calificacion +
                 ", estado=" + estado +
-                ", alumno=" + alumno +
-                ", recursamiento=" + recursamiento +
-                "} " + super.toString();
+                "} ";
     }
 }
