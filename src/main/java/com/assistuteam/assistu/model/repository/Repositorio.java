@@ -78,7 +78,7 @@ public abstract class Repositorio <T extends Entidad> {
                 obj = mappingObject(result);
                 lista.add(obj);
             }
-            return lista; // Retornar la lista de objetos
+            return lista;
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage() +
             "\nIn Class:\t" + this.getClass().getName() +
@@ -92,7 +92,7 @@ public abstract class Repositorio <T extends Entidad> {
             preparedStatement = conexion.conectar().prepareStatement(queryCreate);
             setStatementParameters(preparedStatement, obj, true);
             long result = preparedStatement.executeUpdate();
-            return result >= 0; // Retornar true si se crea correctamente, false en caso contrario
+            return result >= 0;
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage() + 
             "\nIn Class:\t" + this.getClass().getName() + 
@@ -110,7 +110,7 @@ public abstract class Repositorio <T extends Entidad> {
             while (result.next()) {
                 obj = mappingObject(result);
             }
-            return obj; // Retornar true si se crea correctamente, false en caso contrario
+            return obj;
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage() + 
             "\nIn Class:\t" + this.getClass().getName() + 
@@ -124,7 +124,7 @@ public abstract class Repositorio <T extends Entidad> {
             if(obj.getId() <=0) throw new Exception("No hay id <= a 0");
             preparedStatement = conexion.conectar().prepareStatement(queryUpdate);
             long result = preparedStatement.executeUpdate();
-            return result >= 0; // Retorna true si se actualizó al menos un registro
+            return result >= 0;
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage() + 
             "\nIn Class:\t" + this.getClass().getName() + 
@@ -138,7 +138,7 @@ public abstract class Repositorio <T extends Entidad> {
             preparedStatement = conexion.conectar().prepareStatement(queryDelete);
             preparedStatement.setLong(1, id);
             long result = preparedStatement.executeUpdate();
-            return result >= 0; // Retornar true si se elimina correctamente, false en caso contrario
+            return result >= 0;
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage() + 
             "\nIn Class:\t" + this.getClass().getName() + 
