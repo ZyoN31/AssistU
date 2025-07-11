@@ -23,7 +23,7 @@ AssistU es una aplicación de escritorio desarrollada en Java que automatiza y o
 
 ## Tecnologías
  - Java SE 11+
- - JavaFX o Swing para GUI
+ - JavaFX o Swing para GUI (Proximamente)
  - SQLite / MariaDB
  - Maven
 

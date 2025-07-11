@@ -16,17 +16,11 @@ public class ControladorDocente extends Controlador<RepositorioDocente, Docente>
     @Override
     protected boolean validar(Docente obj) throws Exception {
         if (obj.getId() < 0) throw new Exception("El ID del docente es obligatorio");
-        if (obj.getMatricula() == null || obj.getMatricula().isEmpty()) throw new Exception("La matricula del docente es obligatoria");
-        if (obj.getNombre() == null || obj.getNombre().isEmpty()) throw new Exception("El nombre del docente es obligatorio");
-        if (obj.getContrasenia() == null || obj.getContrasenia().isEmpty()) throw new Exception("La contrasenia del docente es obligatoria");
-        if (obj.getApellidoPaterno() == null || obj.getApellidoPaterno().isEmpty()) throw new Exception("El apellido paterno del docente es obligatorio");
-        if (obj.getApellidoMaterno() == null || obj.getApellidoMaterno().isEmpty()) throw new Exception("El apellido materno del docente es obligatorio");
-        if (obj.getCorreo() == null || obj.getCorreo().isEmpty()) throw new Exception("El correo del docente es obligatorio");
         if (obj.getCargo() == null || obj.getCargo().isEmpty()) throw new Exception("El cargo del docente es obligatorio");
         if (obj.getHorario() == null || obj.getHorario().isEmpty()) throw new Exception("El horario del docente es obligatorio");
         return true;
     }
-    
+
     public void buscarPorNombre(String nombre) throws Exception {
         List<Docente> docentes = repositorio.leerTodos();
         docentes.forEach(docente -> {

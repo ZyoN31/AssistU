@@ -3,6 +3,14 @@
 -- Encargad@ de la creacion de la Base de Datos: Samaria & Kevin
 -- Nombre de la Base de Datos: assistu_db.db
 
+-- Sentencia para eliminar las tablas si existen
+DROP TABLE IF EXISTS Usuarios;
+DROP TABLE IF EXISTS Alumnos;
+DROP TABLE IF EXISTS Docentes;
+DROP TABLE IF EXISTS Administradores;
+DROP TABLE IF EXISTS Recursamientos;
+DROP TABLE IF EXISTS Inscripciones;
+
 -- Sentencia para crear la tabla de [Usuarios]
 CREATE TABLE Usuarios (
     id_usuario INTEGER PRIMARY KEY NOT NULL,

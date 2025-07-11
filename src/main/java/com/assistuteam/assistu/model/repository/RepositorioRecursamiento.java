@@ -10,24 +10,24 @@ import com.assistuteam.assistu.model.entity.Recursamiento;
 @SuppressWarnings("all")
 public class RepositorioRecursamiento extends Repositorio<Recursamiento> {
     public RepositorioRecursamiento() throws Exception {
-        super("Recursamientos", Recursamiento.class.getName(), 6);
+        super("Recursamientos", "recursamiento", 6);
     }
 
     @Override
     protected Recursamiento mappingObject(ResultSet result) throws Exception {
-        Recursamiento obj = new Recursamiento();
-        obj.setId(result.getInt(1));
-        obj.setMateria(result.getString(2));
-        obj.setGrupo(result.getString(3));
-        obj.setHorario(result.getString(4));
-        // Mapear administrador y docente usando sus repositorios
+        Recursamiento objRecursamiento = new Recursamiento();
+        objRecursamiento.setId(result.getInt(1));
+        objRecursamiento.setMateria(result.getString(2));
+        objRecursamiento.setGrupo(result.getString(3));
+        objRecursamiento.setHorario(result.getString(4));
+        
         int idAdministrador = result.getInt(5);
         int idDocente = result.getInt(6);
         RepositorioAdministrador repoAdministrador = new RepositorioAdministrador();
         RepositorioDocente repoDocente = new RepositorioDocente();
-        obj.setAdministrador(repoAdministrador.leer(idAdministrador));
-        obj.setDocente(repoDocente.leer(idDocente));
-        return obj;
+        objRecursamiento.setAdministrador(repoAdministrador.leer(idAdministrador));
+        objRecursamiento.setDocente(repoDocente.leer(idDocente));
+        return objRecursamiento;
     }
 
     @Override

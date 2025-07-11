@@ -12,23 +12,26 @@ import com.assistuteam.assistu.model.entity.Inscripcion;
 @SuppressWarnings("all")
 public class RepositorioInscripcion extends Repositorio<Inscripcion> {
     public RepositorioInscripcion() throws Exception {
-        super("Inscripciones", Inscripcion.class.getName(), 5);
+        super("Inscripciones", "inscripcion", 5);
     }
 
     @Override
     protected Inscripcion mappingObject(ResultSet result) throws Exception {
-        Inscripcion obj = new Inscripcion();
-        obj.setFecha(result.getDate(1).toLocalDate());
-        obj.setCalificacion(result.getFloat(2));
-        obj.setEstado(result.getString(3));
-        // Mapeando alumno y recursamiento usando sus repositorios
-        int idAlumno = result.getInt(4);
-        int idRecursamiento = result.getInt(5);
+        Inscripcion objInscripcion = new Inscripcion();
+        
+        int idAlumno = result.getInt(1);
+        int idRecursamiento = result.getInt(2);
         RepositorioAlumno repoAlumno = new RepositorioAlumno();
         RepositorioRecursamiento repoRecursamiento = new RepositorioRecursamiento();
-        obj.setAlumno(repoAlumno.leer(idAlumno));
-        obj.setRecursamiento(repoRecursamiento.leer(idRecursamiento));
-        return obj;
+        objInscripcion.setAlumno(repoAlumno.leer(idAlumno));
+        objInscripcion.setRecursamiento(repoRecursamiento.leer(idRecursamiento));
+
+        String fechaStr = result.getString(3);
+        objInscripcion.setFecha(java.time.LocalDate.parse(fechaStr));
+
+        objInscripcion.setCalificacion(result.getFloat(4));
+        objInscripcion.setEstado(result.getString(5));
+        return objInscripcion;
     }
 
     @Override
@@ -38,7 +41,6 @@ public class RepositorioInscripcion extends Repositorio<Inscripcion> {
         statement.setDate(i++, Date.valueOf(obj.getFecha()));
         statement.setFloat(i++, obj.getCalificacion());
         statement.setString(i++, obj.getEstado());
-        // Si tienes los IDs de alumno y recursamiento, agrégalos aquí
         statement.setInt(i++, obj.getAlumno().getId());
         statement.setInt(i++, obj.getRecursamiento().getId());
     }

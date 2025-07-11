@@ -28,11 +28,11 @@ public class Inscripcion extends Entidad {
     @Override
     public String toString() {
         return "Inscripcion{" +
-                "id_alumno=" + (alumno != null ? alumno.getId() : "null") +
-                ", id_recursamiento=" + (recursamiento != null ? recursamiento.getId() : "null") +
+                "alumno=" + (alumno != null ? alumno : "null") + // Esto se hace para que se muestren los objetos/datos del alumno y recursamiento si no son nulos
+                ", recursamiento=" + (recursamiento != null ? recursamiento : "null") +
                 ", fecha=" + fecha +
                 ", calificacion=" + calificacion +
                 ", estado=" + estado +
-                "} ";
+                "}";
     }
 }

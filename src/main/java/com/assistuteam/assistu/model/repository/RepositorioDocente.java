@@ -4,27 +4,34 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 import com.assistuteam.assistu.model.entity.Docente;
+import com.assistuteam.assistu.model.entity.Usuario;
 
 /** @author assistu_team **/
 
 @SuppressWarnings("all")
 public class RepositorioDocente extends Repositorio<Docente> {
     public RepositorioDocente() throws Exception {
-        super("Docentes", Docente.class.getName(), 9);
+        super("Docentes", "docente", 4);
     }
 
     @Override
     protected Docente mappingObject(ResultSet result) throws Exception {
         Docente objDocente = new Docente();
         objDocente.setId(result.getInt(1));
-        objDocente.setMatricula(result.getString(2));
-        objDocente.setContrasenia(result.getString(3));
-        objDocente.setNombre(result.getString(4));
-        objDocente.setApellidoPaterno(result.getString(5));
-        objDocente.setApellidoMaterno(result.getString(6));
-        objDocente.setCorreo(result.getString(7));
-        objDocente.setCargo(result.getString(8));
-        objDocente.setHorario(result.getString(9));
+        objDocente.setCargo(result.getString(2));
+        objDocente.setHorario(result.getString(3));
+        int idUsuario = result.getInt(4);
+
+        // Datos del Usuario Docente
+        RepositorioUsuario repoUsuario = new RepositorioUsuario();
+        Usuario usuario = repoUsuario.leer(idUsuario);
+        if (usuario != null) {
+            objDocente.setMatricula(usuario.getMatricula());
+            objDocente.setNombre(usuario.getNombre());
+            objDocente.setApellidoPaterno(usuario.getApellidoPaterno());
+            objDocente.setApellidoMaterno(usuario.getApellidoMaterno());
+            objDocente.setCorreo(usuario.getCorreo());
+        }
         return objDocente;
     }
 

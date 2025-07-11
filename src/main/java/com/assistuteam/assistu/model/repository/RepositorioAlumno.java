@@ -4,28 +4,35 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 import com.assistuteam.assistu.model.entity.Alumno;
+import com.assistuteam.assistu.model.entity.Usuario;
 
 /** @author assistu_team **/
 
 @SuppressWarnings("all")
 public class RepositorioAlumno extends Repositorio<Alumno> {
     public RepositorioAlumno() throws Exception {
-        super("alumnos", Alumno.class.getName(), 5);
+        super("Alumnos", "alumno", 5);
     }
 
     @Override
     protected Alumno mappingObject(ResultSet result) throws Exception {
         Alumno objAlumno = new Alumno();
         objAlumno.setId(result.getInt(1));
-        objAlumno.setMatricula(result.getString(2));
-        objAlumno.setContrasenia(result.getString(3));
-        objAlumno.setNombre(result.getString(4));
-        objAlumno.setApellidoPaterno(result.getString(5));
-        objAlumno.setApellidoMaterno(result.getString(6));
-        objAlumno.setCorreo(result.getString(7));
-        objAlumno.setCuatrimestre(result.getInt(8));
-        objAlumno.setGrupo(result.getString(9));
-        objAlumno.setCarrera(result.getString(10));
+        objAlumno.setCuatrimestre(result.getInt(2));
+        objAlumno.setGrupo(result.getString(3));
+        objAlumno.setCarrera(result.getString(4));
+        int idUsuario = result.getInt(5);
+
+        // Datos del Usuario Alumno
+        RepositorioUsuario repoUsuario = new RepositorioUsuario();
+        Usuario usuario = repoUsuario.leer(idUsuario);
+        if (usuario != null) {
+            objAlumno.setMatricula(usuario.getMatricula());
+            objAlumno.setNombre(usuario.getNombre());
+            objAlumno.setApellidoPaterno(usuario.getApellidoPaterno());
+            objAlumno.setApellidoMaterno(usuario.getApellidoMaterno());
+            objAlumno.setCorreo(usuario.getCorreo());
+        }
         return objAlumno;
     }
 

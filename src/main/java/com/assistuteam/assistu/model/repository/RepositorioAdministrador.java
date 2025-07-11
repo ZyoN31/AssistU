@@ -4,26 +4,33 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 import com.assistuteam.assistu.model.entity.Administrador;
+import com.assistuteam.assistu.model.entity.Usuario;
 
 /** @author assistu_team **/
 
 @SuppressWarnings("all")
 public class RepositorioAdministrador extends Repositorio<Administrador> {
     public RepositorioAdministrador() throws Exception {
-        super("Administradores", Administrador.class.getName(), 8);
+        super("Administradores", "administrador", 3);
     }
 
     @Override
     protected Administrador mappingObject(ResultSet result) throws Exception {
         Administrador objAdministrador = new Administrador();
         objAdministrador.setId(result.getInt(1));
-        objAdministrador.setMatricula(result.getString(2));
-        objAdministrador.setContrasenia(result.getString(3));
-        objAdministrador.setNombre(result.getString(4));
-        objAdministrador.setApellidoPaterno(result.getString(5));
-        objAdministrador.setApellidoMaterno(result.getString(6));
-        objAdministrador.setCorreo(result.getString(7));
-        objAdministrador.setCargo(result.getString(8));
+        objAdministrador.setCargo(result.getString(2));
+        int idUsuario = result.getInt(3);
+
+        // Datos del Usuario Administrador
+        RepositorioUsuario repoUsuario = new RepositorioUsuario();
+        Usuario usuario = repoUsuario.leer(idUsuario);
+        if (usuario != null) {
+            objAdministrador.setMatricula(usuario.getMatricula());
+            objAdministrador.setNombre(usuario.getNombre());
+            objAdministrador.setApellidoPaterno(usuario.getApellidoPaterno());
+            objAdministrador.setApellidoMaterno(usuario.getApellidoMaterno());
+            objAdministrador.setCorreo(usuario.getCorreo());
+        }
         return objAdministrador;
     }
 

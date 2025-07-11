@@ -38,6 +38,11 @@ public abstract class Repositorio <T extends Entidad> {
     }
 
     private void iniciarQuerys(String table, long parameters) throws Exception {
+        // Elimina cualquier punto al final del nombre de la tabla
+        if (table.endsWith(".")) {
+            table = table.substring(0, table.length() - 1);
+        }
+
         // Consulta para crear un nuevo registro
         queryCreate = "INSERT INTO " + table + " VALUES(NULL"; // Reemplazar ?,...,? con los campos necesarios
         for (long i = 0; i < parameters-1; i++) {
