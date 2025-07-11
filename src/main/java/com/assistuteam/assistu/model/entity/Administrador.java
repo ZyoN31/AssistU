@@ -12,5 +12,25 @@ public class Administrador extends Usuario {
 
     public Administrador() {
         super();
+        this.id = 0;
+        this.matricula = "";
+        this.contrasenia = "";
+        this.nombre = "";
+        this.apellidoPaterno = "";
+        this.apellidoMaterno = "";
+        this.correo = "";
+        this.cargo = "";
+    }
+
+    @Override
+    public String toString() {
+        return "Administrador{" +
+            "matricula='" + matricula + '\'' +
+            ", nombre='" + nombre + '\'' +
+            ", apellidoPaterno='" + apellidoPaterno + '\'' +
+            ", apellidoMaterno='" + apellidoMaterno + '\'' +
+            ", correo='" + correo + '\'' +
+            ", cargo='" + cargo + '\'' +
+            '}';
     }
 }

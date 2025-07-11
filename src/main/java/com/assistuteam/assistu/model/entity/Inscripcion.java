@@ -9,8 +9,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class Inscripcion {
-    private int id;
+public class Inscripcion extends Entidad {
     private LocalDate fecha;
     private float calificacion;
     private boolean estado;
@@ -19,5 +18,23 @@ public class Inscripcion {
 
     public Inscripcion() {
         super();
+        this.id = 0;
+        this.fecha = LocalDate.now();
+        this.calificacion = 0.0f;
+        this.estado = false;
+        this.alumno = new Alumno();
+        this.recursamiento = new Recursamiento();
+    }
+
+    @Override
+    public String toString() {
+        return "Inscripcion{" +
+                "id=" + id +
+                ", fecha=" + fecha +
+                ", calificacion=" + calificacion +
+                ", estado=" + estado +
+                ", alumno=" + alumno +
+                ", recursamiento=" + recursamiento +
+                "} " + super.toString();
     }
 }

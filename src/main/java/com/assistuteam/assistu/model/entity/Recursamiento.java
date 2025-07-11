@@ -1,5 +1,38 @@
 package com.assistuteam.assistu.model.entity;
 
-public class Recursamiento {
-    
+import lombok.Getter;
+import lombok.Setter;
+
+/** @author assistu_team **/
+
+@Getter
+@Setter
+public class Recursamiento extends Entidad {
+    private String materia;
+    private String grupo;
+    private String horario;
+    private Administrador administrador;
+    private Docente docente;
+
+    public Recursamiento() {
+        super();
+        this.id = 0;
+        this.materia = "";
+        this.grupo = "";
+        this.horario = "";
+        this.administrador = new Administrador();
+        this.docente = new Docente();
+    }
+
+    @Override
+    public String toString() {
+        return "Recursamiento{" +
+                "id=" + id +
+                ", materia='" + materia + '\'' +
+                ", grupo='" + grupo + '\'' +
+                ", horario='" + horario + '\'' +
+                ", administrador=" + administrador +
+                ", docente=" + docente +
+                '}';
+    }
 }

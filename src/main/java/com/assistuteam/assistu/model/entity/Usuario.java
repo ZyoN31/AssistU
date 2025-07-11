@@ -7,15 +7,11 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class Usuario {
+public class Usuario extends Entidad {
     protected String matricula;
     protected String contrasenia;
     protected String nombre;
     protected String apellidoPaterno;
     protected String apellidoMaterno;
     protected String correo;
-
-    public Usuario() {
-        super();
-    }
 }

@@ -14,5 +14,29 @@ public class Alumno extends Usuario {
 
     public Alumno() {
         super();
+        this.id = 0;
+        this.matricula = "";
+        this.contrasenia = "";
+        this.nombre = "";
+        this.apellidoPaterno = "";
+        this.apellidoMaterno = "";
+        this.correo = "";
+        this.cuatrimestre = 0;
+        this.grupo = "";
+        this.carrera = "";
+    }
+
+    @Override
+    public String toString() {
+        return "Alumno{" +
+            "matricula='" + matricula + '\'' +
+            ", nombre='" + nombre + '\'' +
+            ", apellidoPaterno='" + apellidoPaterno + '\'' +
+            ", apellidoMaterno='" + apellidoMaterno + '\'' +
+            ", correo='" + correo + '\'' +
+            ", cuatrimestre=" + cuatrimestre +
+            ", grupo='" + grupo + '\'' +
+            ", carrera='" + carrera + '\'' +
+            '}';
     }
 }
