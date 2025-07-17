@@ -1,15 +1,11 @@
 package com.assistuteam.assistu;
 
-import com.assistuteam.assistu.controller.ControladorAdministrador;
-import com.assistuteam.assistu.controller.ControladorAlumno;
-import com.assistuteam.assistu.controller.ControladorDocente;
-import com.assistuteam.assistu.controller.ControladorInscripcion;
-import com.assistuteam.assistu.controller.ControladorRecursamiento;
-import com.assistuteam.assistu.controller.ControladorUsuario;
+/** @author assistu_team **/
 
 @SuppressWarnings("all")
 public class AssistU {
     public static void main(String[] args) throws Exception {
+        /**
         // Usuarios
         ControladorUsuario controladorUsuario = new ControladorUsuario();
         System.out.println("\n--- Todos los usuarios ---");
@@ -17,7 +13,7 @@ public class AssistU {
             System.out.println(usuario + "\n");
         });
         System.out.println("--- Buscar usuario por nombre ---");
-        controladorUsuario.buscarPorNombre("Jose");
+        controladorUsuario.buscarPorMatricula("MJJ0240614");
         System.out.println("\n--- Buscar usuario por rol ---");
         controladorUsuario.buscarPorRol("Administrador");
 
@@ -75,5 +71,6 @@ public class AssistU {
         controladorInscripcion.buscarPorEstado("aprobado");
         System.out.println("\n--- Buscar inscripcion por fecha ---");
         controladorInscripcion.buscarPorFecha("2025-07-10");
+         */
     }
 }

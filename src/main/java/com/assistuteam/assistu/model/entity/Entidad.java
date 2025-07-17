@@ -9,5 +9,6 @@ import lombok.Setter;
 @Setter
 public class Entidad {
     // Se crea esta clase para unificar a todas las clases relacionadas con ID y asi no recurrir a objetos genericos o temas por el estilo
+    // Vale vertebra, en apache netbeans por alguna madafokin razon, no reconoce la dependencia de loombok >:(
     protected int id;
 }
