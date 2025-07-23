@@ -42,11 +42,14 @@ public class FramePrincipal extends FrameUtilities {
 
     private void panelLogin() {
         // Panel central (login) con color y bordes redondeados
-        panelInterno01 = crearPanel(400, 450, 3, 2, 100, 100, 35, 1);
+        panelInterno01 = crearPanel(400, 450, 3, 2, 100, 100, 35, 1f);
         panelInterno01.setLayout(new GridBagLayout());
 
         // Padding para el eje X de la "mayoria" de componentes
         int xPadding = 15;
+        // Atributos de modificacion de tamaño
+        int[] sizePanel = {};
+        int[] verticalPads = {};
 
         // Logo
         labelLogo = setImageLabel("/com/assistuteam/assistu/resources/images/assistu_logo.png", 78, 59);

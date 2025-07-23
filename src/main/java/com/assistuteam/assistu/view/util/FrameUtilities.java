@@ -22,6 +22,7 @@ import javax.swing.border.EmptyBorder;
 
 /** @author assistu_team **/
 
+@SuppressWarnings("all")
 public abstract class FrameUtilities extends JFrame{
 
     // Etiquetas reutilizables
