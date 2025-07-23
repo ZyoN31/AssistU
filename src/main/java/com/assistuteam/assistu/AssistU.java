@@ -1,10 +1,18 @@
 package com.assistuteam.assistu;
 
+import com.assistuteam.assistu.view.FramePrincipal;
+import com.assistuteam.assistu.view.themes.AssistUDarkTheme;
+import com.formdev.flatlaf.FlatLaf;
+
 /** @author assistu_team **/
 
 @SuppressWarnings("all")
 public class AssistU {
     public static void main(String[] args) throws Exception {
+        FlatLaf.registerCustomDefaultsSource("com/assistuteam/assistu/view/themes");
+        AssistUDarkTheme.setup();
+        FramePrincipal inicioFrame = new FramePrincipal();
+
         /**
         // Usuarios
         ControladorUsuario controladorUsuario = new ControladorUsuario();

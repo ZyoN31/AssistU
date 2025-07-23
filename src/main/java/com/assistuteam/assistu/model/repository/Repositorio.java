@@ -146,4 +146,8 @@ public abstract class Repositorio <T extends Entidad> {
             throw e;
         }
     }
+
+    public void usuarioActivado () {
+        //Generar inicio constante de sesion
+    }
 }
