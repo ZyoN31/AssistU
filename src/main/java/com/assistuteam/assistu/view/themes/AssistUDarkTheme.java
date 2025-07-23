@@ -6,7 +6,7 @@ import com.formdev.flatlaf.FlatDarculaLaf;
 
 public class AssistUDarkTheme extends FlatDarculaLaf {
     public static boolean setup() {
-        return setup( new AssistUDarkTheme() );
+        return setup( new AssistUDarkTheme());
     }
 
     @Override
