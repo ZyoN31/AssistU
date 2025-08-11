@@ -77,37 +77,37 @@ CREATE TABLE Inscripciones (
 -- Insertar datos en Usuarios
 INSERT INTO Usuarios (id_usuario, matricula, contrasenia, nombre, apellido_paterno, apellido_materno, correo, tipo_usuario) VALUES
 (1,'CMSO240614', 'SAM123', 'Samaria', 'Cervantes', 'Martinez', 'cmso240614@upemor.edu.mx', 'alumna'),
-(2,'MJJ0240614', 'Jose4567', 'Jose', 'Martinez', 'Jacobo', 'MJJ0240614.@upemor.edu.mx', 'alumno'),
-(3,'DVKO240202', 'Kevin5677', 'Kevin', 'Diaz', 'Vega', 'DVKO240202.@upemor.edu.mx', 'Alumno'),
-(4,'JOSOUBUHAY', 'MINA78', 'Samuel', 'Arroyo', 'Soto', 'JOSOUBUHAY.@upemor.edu.mx', 'Docente'),
-(5,'jskaksnyyy', 'RANIt@', 'Sebastian', 'Soto', 'Mendez', 'jskaksnyyy.@upemor.edu.mx', 'Docente'),
-(6,'HDMIAL0970', 'Aldo90', 'Axel', 'Ortiz', 'Dominguez', 'HDMIAL0970.@upemor.edu.mx', 'Administrador'),
-(7,'VRT749O20', 'axel567', 'Sofia', 'Perez', 'Antolli', 'VRT749O20.@upemor.edu.mx', 'Administrador');
+(2,'MJJ0240614', 'Jose4567', 'Jose', 'Martinez', 'Jacobo', 'mjj0240614@upemor.edu.mx', 'alumno'),
+(3,'DVKO240202', 'Kevin5677', 'Kevin', 'Diaz', 'Vega', 'dvko240202@upemor.edu.mx', 'alumno'),
+(4,'JOSOUBUHAY', 'MINA78', 'Samuel', 'Arroyo', 'Soto', 'josoubuhay@upemor.edu.mx', 'docente'),
+(5,'JSKAKSNYYY', 'RANIt@', 'Sebastian', 'Soto', 'Mendez', 'jskaksnyyy@upemor.edu.mx', 'docente'),
+(6,'HDMIAL0970', 'Aldo90', 'Axel', 'Ortiz', 'Dominguez', 'hdmial0970@upemor.edu.mx', 'administrador'),
+(7,'VRT749O20', 'axel567', 'Sofia', 'Perez', 'Antolli', 'vrt749o20@upemor.edu.mx', 'administrador');
 
 -- Insertar datos en Alumnos
 INSERT INTO Alumnos (id_alumno, cuatrimestre, grupo, carrera, id_usuario) VALUES
-(111, 3, '3C', 'Ingenieria en Software', 1),
-(222, 6, '6B', 'Ingenieria Industrial', 2),
-(333, 9, '2D', 'Ingenieria en sistemas', 3);
+(101, 3, '3C', 'Ingenieria en Software', 1),
+(102, 6, '6B', 'Ingenieria Industrial', 2),
+(103, 9, '2D', 'Ingenieria en Sistemas', 3);
 
 -- Insertar datos en Docentes
 INSERT INTO Docentes (id_docente, cargo, horario, id_usuario) VALUES
-(10, 'Profesor calculo', '08:00-10:00', 4),
-(88, 'Profesor POO', '10:00-12:00', 5);
+(201, 'Profesor Calculo', '08:00-10:00', 4),
+(202, 'Profesor POO', '10:00-12:00', 5);
 
 -- Insertar datos en Administradores
 INSERT INTO Administradores (id_administrador, cargo, id_usuario) VALUES
-(99, 'Coordinador academico', 6),
-(22, 'Secretaria', 7);
+(301, 'Coordinador Academico', 6),
+(302, 'Secretaria', 7);
 
 -- Insertar datos en Recursamientos
 INSERT INTO Recursamientos (id_recursamiento, materia, grupo, horario, id_administrador, id_docente) VALUES
-(11, 'Calculo Integral', '3C', '08:00-10:00', 99, 10),
-(12, 'POO', '6B', '10:00-12:00', 22, 88),
-(13, 'POO', '2D', '11:00-13:00', 22, 88);
+(401, 'Calculo Integral', '3C', '08:00-10:00', 301, 201),
+(402, 'POO', '6B', '10:00-12:00', 302, 202),
+(403, 'POO', '2D', '11:00-13:00', 302, 202);
 
 -- Insertar datos en Inscripciones
 INSERT INTO Inscripciones (id_alumno, id_recursamiento, fecha, calificacion, estado) VALUES
-(111, 11, '2025-07-10', 8.5, 'aprobado'),
-(222, 12, '2025-07-10', 7.0, 'aprobado'),
-(333, 13, '2025-07-11', 5.0, 'reprobado');
+(101, 401, '2025-07-10', 8.5, 'aprobado'),
+(102, 402, '2025-07-10', 7.0, 'aprobado'),
+(103, 403, '2025-07-11', 5.0, 'reprobado');

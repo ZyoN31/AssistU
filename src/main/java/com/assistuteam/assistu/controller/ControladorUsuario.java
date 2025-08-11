@@ -92,16 +92,15 @@ public class ControladorUsuario extends Controlador<RepositorioUsuario, Usuario>
             usuario.setCorreo(correo);
             usuario.setTipoUsuario("alumno");
 
-            // Guardar usuario y obtener el id generado
             boolean usuarioCreado = repositorio.crear(usuario);
             if (!usuarioCreado) return false;
-            int idUsuario = usuario.getId(); // Asume que el repositorio actualiza el id
+            int idUsuario = usuario.getId();
 
             Alumno alumno = new Alumno();
             alumno.setCuatrimestre(cuatrimestre);
             alumno.setGrupo(grupo);
             alumno.setCarrera(carrera);
-            alumno.setId(idUsuario); // <-- CORRECTO
+            alumno.setId(idUsuario);
 
             RepositorioAlumno repoAlumno = new RepositorioAlumno();
             boolean alumnoCreado = repoAlumno.crear(alumno);

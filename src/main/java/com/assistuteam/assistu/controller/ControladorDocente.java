@@ -21,6 +21,17 @@ public class ControladorDocente extends Controlador<RepositorioDocente, Docente>
         return true;
     }
 
+    public void obtenerPorMatricula(String matricula) throws Exception {
+        List<Docente> docentes = repositorio.leerTodos();
+        for (Docente docente : docentes) {
+            if (docente.getMatricula().equalsIgnoreCase(matricula)) {
+                System.out.println(docente);
+                return;
+            }
+        }
+        System.out.println("No se encontró ningún docente con la matrícula: " + matricula);
+    }
+
     public void buscarPorNombre(String nombre) throws Exception {
         List<Docente> docentes = repositorio.leerTodos();
         docentes.forEach(docente -> {

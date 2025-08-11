@@ -1,9 +1,13 @@
 package com.assistuteam.assistu.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.assistuteam.assistu.model.entity.Alumno;
+import com.assistuteam.assistu.model.entity.Inscripcion;
+import com.assistuteam.assistu.model.entity.Recursamiento;
 import com.assistuteam.assistu.model.repository.RepositorioAlumno;
+import com.assistuteam.assistu.model.repository.RepositorioInscripcion;
 
 /** @author assistu_team **/
 
@@ -21,6 +25,28 @@ public class ControladorAlumno extends Controlador<RepositorioAlumno, Alumno> {
         if (obj.getCarrera() == null || obj.getCarrera().isEmpty()) throw new Exception("La carrera del alumno es obligatoria");
         return true;
     }
+
+    public Alumno obtenerPorMatricula(String matricula) throws Exception {
+        List<Alumno> alumnos = repositorio.leerTodos();
+        for (Alumno alumno : alumnos) {
+            if (alumno.getMatricula().equalsIgnoreCase(matricula)) {
+                return alumno;
+            }
+        }
+        throw new Exception("No se encontró ningún alumno con la matrícula: " + matricula);
+    }
+
+    public List<Recursamiento> obtenerHistorialRecursamientos(int idAlumno) throws Exception {
+    RepositorioInscripcion repoInscripcion = new RepositorioInscripcion();
+    List<Inscripcion> inscripciones = repoInscripcion.leerTodos();
+    List<Recursamiento> historial = new ArrayList<>();
+    for (Inscripcion insc : inscripciones) {
+        if (insc.getAlumno() != null && insc.getAlumno().getId() == idAlumno) {
+            historial.add(insc.getRecursamiento());
+        }
+    }
+    return historial;
+}
 
     public void buscarPorMatricula(String matricula) throws Exception {
         List<Alumno> alumnos = repositorio.leerTodos();

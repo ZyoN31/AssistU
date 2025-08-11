@@ -31,7 +31,7 @@ import com.assistuteam.assistu.view.util.FramePanelBase;
 /** @author assistu_team **/
 
 @SuppressWarnings("all")
-public class FrameAdministrador extends FramePanelBase {
+ public class FrameAdministrador extends FramePanelBase {
  
      private final Usuario usuario;
      private ControladorAdministrador controladorAdministrador;

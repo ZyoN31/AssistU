@@ -82,14 +82,6 @@ public class FramePrincipal extends FrameUtilities {
             String matricula = getTxFlMatricula();
             String contrasenia = getTxFlContrasenia();
 
-            // Si es el usuario especial de SyncViz
-            if (matricula.equalsIgnoreCase("ZN31DV") && contrasenia.equals("ZN31")) {
-                // Llama al panel de administración y sincronización
-                SyncViz();
-                this.dispose();
-                return;
-            }
-
             // Llama al login
             Usuario usuario = ControladorUsuario.login(matricula, contrasenia);
 

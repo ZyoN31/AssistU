@@ -24,6 +24,22 @@ public class ControladorRecursamiento extends Controlador<RepositorioRecursamien
         return true;
     }
 
+    public void crearRecursamiento(Recursamiento recursamiento) throws Exception {
+        try {
+            if (validar(recursamiento)) {
+                if (repositorio.crear(recursamiento)) {
+                    System.out.println("Recursamiento creado exitosamente.");
+                } else {
+                    System.out.println("Error al crear el recursamiento.");
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage() + " in class: " + this.getClass().getName()
+                    + " in method: crearRecursamiento();");
+            throw e;
+        }
+    }
+
     public void buscarPorMateria(String materia) throws Exception {
         List<Recursamiento> recursamientos = repositorio.leerTodos();
         recursamientos.forEach(recursamiento -> {

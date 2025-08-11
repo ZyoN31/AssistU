@@ -25,6 +25,22 @@ public class ControladorInscripcion extends Controlador<RepositorioInscripcion, 
         return true;
     }
 
+    public void crearInscripcion(Inscripcion inscripcion) throws Exception {
+        try {
+            if (validar(inscripcion)) {
+                if (repositorio.crear(inscripcion)) {
+                    System.out.println("Inscripción creada exitosamente.");
+                } else {
+                    System.out.println("Error al crear la inscripción.");
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage() + " in class: " + this.getClass().getName()
+                    + " in method: crearInscripcion();");
+            throw e;
+        }
+    }
+
     public void buscarPorFecha(String fecha) throws Exception {
         try {
             DateTimeFormatter format = java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd");
