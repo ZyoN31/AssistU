@@ -26,8 +26,8 @@ import javax.swing.table.DefaultTableModel;
 import com.assistuteam.assistu.model.Conexion;
 
 /**
- * Panel de administración y sincronización entre SQLite y MariaDB.
- * Permite visualizar, comparar y sincronizar tablas y datos de ambas bases de datos.
+ * Esto nomas pa ver que show con nuestras dos bases de datos, la de mariadb y la de sqlite
+ * solamente pro admins
  * @author assistu_team
  */
 public class SyncViz extends JFrame {
@@ -242,7 +242,6 @@ public class SyncViz extends JFrame {
                 count++;
             }
 
-            // Si destino es MariaDB, reactiva foreign_key_checks
             if (to.equals("MariaDB")) {
                 Statement st = connTo.createStatement();
                 st.execute("SET foreign_key_checks = 1;");
@@ -256,20 +255,17 @@ public class SyncViz extends JFrame {
         }
     }
 
-    // Sincroniza todas las tablas de origen a destino respetando dependencias de FK
     private void syncAllTables(String from, String to) {
         Connection connTo = to.equals("SQLite") ? safeConnect(connSQLite) : safeConnect(connMaria);
         if (connTo == null) return;
 
         try {
-            // Si destino es MariaDB, desactiva foreign_key_checks
             if (to.equals("MariaDB")) {
                 Statement st = connTo.createStatement();
                 st.execute("SET foreign_key_checks = 0;");
                 st.close();
             }
 
-            // Borrar en orden de dependencias (hijas primero)
             for (String table : BORRAR_ORDER) {
                 try {
                     Statement stTo = connTo.createStatement();
@@ -281,7 +277,6 @@ public class SyncViz extends JFrame {
                 }
             }
 
-            // Insertar en orden de dependencias (padres primero)
             for (String table : INSERT_ORDER) {
                 Connection connFrom = from.equals("SQLite") ? safeConnect(connSQLite) : safeConnect(connMaria);
                 if (connFrom == null) continue;
@@ -312,7 +307,6 @@ public class SyncViz extends JFrame {
                 }
             }
 
-            // Si destino es MariaDB, reactiva foreign_key_checks
             if (to.equals("MariaDB")) {
                 Statement st = connTo.createStatement();
                 st.execute("SET foreign_key_checks = 1;");
@@ -326,7 +320,6 @@ public class SyncViz extends JFrame {
         }
     }
 
-    // Helper: conecta a la base y maneja error
     private Connection safeConnect(Conexion c) {
         try {
             return c.conectar();

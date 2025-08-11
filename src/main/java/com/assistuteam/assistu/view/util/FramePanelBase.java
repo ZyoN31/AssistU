@@ -20,6 +20,12 @@ import javax.swing.JPanel;
 public abstract class FramePanelBase extends FrameUtilities {
 
     protected JButton[] botones;
+    // Añade variables separadas para los labels
+    protected JLabel labelLogo;
+    protected JLabel labelTitulo;
+    protected JLabel labelTexto01;
+    protected JLabel labelNombreUsuario; // <-- nuevo
+    protected JLabel labelMatriculaUsuario; // <-- nuevo
 
     // Métodos abstractos a implementar por cada dashboard
     protected abstract String getDashboardTitle();
@@ -70,13 +76,13 @@ public abstract class FramePanelBase extends FrameUtilities {
         labelTexto01 = setLabel(getUserRole(), 22, 3, 'L');
         panelInterno01.add(labelTexto01, setGridsAttributes(0, 2, 5, 1, false, 0, 0, 0, 0));
 
-        // Nombre grande
-        labelTitulo = setLabel(getUserName(), 36, 1, 'L');
-        panelInterno01.add(labelTitulo, setGridsAttributes(0, 3, 5, 1, false, 0, 0, 0, 0));
+        // Nombre grande (NO reutilices labelTitulo)
+        labelNombreUsuario = setLabel(getUserName(), 36, 1, 'L');
+        panelInterno01.add(labelNombreUsuario, setGridsAttributes(0, 3, 5, 1, false, 0, 0, 0, 0));
 
         // Matrícula (más pequeño)
-        labelTexto02 = setLabel(getUserMatricula(), 18, 3, 'L');
-        panelInterno01.add(labelTexto02, setGridsAttributes(0, 4, 5, 1, false, 0, 20, 0, 0));
+        labelMatriculaUsuario = setLabel(getUserMatricula(), 18, 3, 'L');
+        panelInterno01.add(labelMatriculaUsuario, setGridsAttributes(0, 4, 5, 1, false, 0, 20, 0, 0));
 
         // Botones laterales (espaciados verticalmente)
         botones = getSideButtons();

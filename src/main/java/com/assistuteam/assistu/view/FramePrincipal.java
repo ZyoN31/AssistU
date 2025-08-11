@@ -16,6 +16,7 @@ import com.assistuteam.assistu.view.util.FrameUtilities;
 @SuppressWarnings("all") 
 public class FramePrincipal extends FrameUtilities {
     private FrameRegistro frameRegistro;
+    
     public FramePrincipal() {
         initComponents();
     }
@@ -34,7 +35,6 @@ public class FramePrincipal extends FrameUtilities {
         activarBotones();
 
         panelFondo.add(panelInterno01, new GridBagConstraints());
-
         setPanelFondo(panelFondo);
 
         setLocationRelativeTo(null);
@@ -82,7 +82,7 @@ public class FramePrincipal extends FrameUtilities {
             String matricula = getTxFlMatricula();
             String contrasenia = getTxFlContrasenia();
 
-            // Llama al login
+            // Llama al login (función estática de tu ControladorUsuario)
             Usuario usuario = ControladorUsuario.login(matricula, contrasenia);
 
             // Depuración: imprime resultado
@@ -97,7 +97,7 @@ public class FramePrincipal extends FrameUtilities {
                         new FrameDocente(usuario);
                         this.dispose();
                     }
-                    case "alumno", "alumna" -> {
+                    case "alumno" -> {
                         new FrameAlumno(usuario);
                         this.dispose();
                     }
@@ -119,9 +119,5 @@ public class FramePrincipal extends FrameUtilities {
             frameRegistro.setVisible(true);
             this.setVisible(false);
         });
-    }
-
-    private void SyncViz() {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 }
