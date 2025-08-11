@@ -2,6 +2,7 @@ package com.assistuteam.assistu;
 
 import com.assistuteam.assistu.view.FramePrincipal;
 import com.assistuteam.assistu.view.themes.AssistUDarkTheme;
+import com.assistuteam.assistu.view.util.FrameUtilities;
 import com.formdev.flatlaf.FlatLaf;
 
 /** @author assistu_team **/
@@ -9,10 +10,13 @@ import com.formdev.flatlaf.FlatLaf;
 @SuppressWarnings("all")
 public class AssistU {
     public static void main(String[] args) throws Exception {
+        // Con esto se registraran nuestras fuentes personalizadas, las cuales son Sansation[1], Readex Pro[2] y Manjari[3]
         FlatLaf.registerCustomDefaultsSource("com/assistuteam/assistu/view/themes");
+        FrameUtilities.cargarIcono("/com/assistuteam/assistu/resources/images/Icon_AU.png");
+        AssistUDarkTheme.registerFonts();
         AssistUDarkTheme.setup();
         FramePrincipal inicioFrame = new FramePrincipal();
-
+        
         /**
         // Usuarios
         ControladorUsuario controladorUsuario = new ControladorUsuario();

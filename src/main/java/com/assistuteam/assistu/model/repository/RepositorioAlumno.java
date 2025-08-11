@@ -39,15 +39,10 @@ public class RepositorioAlumno extends Repositorio<Alumno> {
     @Override
     protected void setStatementParameters(PreparedStatement statement, Alumno obj, boolean nuevoObjeto) throws Exception {
         int i = 1;
-        if (!nuevoObjeto) statement.setLong(i++, obj.getId());
-        statement.setString(i++, obj.getMatricula());
-        statement.setString(i++, obj.getContrasenia());
-        statement.setString(i++, obj.getNombre());
-        statement.setString(i++, obj.getApellidoPaterno());
-        statement.setString(i++, obj.getApellidoMaterno());
-        statement.setString(i++, obj.getCorreo());
+        if (!nuevoObjeto) statement.setInt(i++, obj.getId()); // id_alumno
         statement.setInt(i++, obj.getCuatrimestre());
         statement.setString(i++, obj.getGrupo());
         statement.setString(i++, obj.getCarrera());
+        statement.setInt(i++, obj.getId());
     }
 }

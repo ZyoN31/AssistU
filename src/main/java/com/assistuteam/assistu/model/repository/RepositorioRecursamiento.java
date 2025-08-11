@@ -37,7 +37,6 @@ public class RepositorioRecursamiento extends Repositorio<Recursamiento> {
         statement.setString(i++, obj.getMateria());
         statement.setString(i++, obj.getGrupo());
         statement.setString(i++, obj.getHorario());
-        // Si tienes los IDs de administrador y docente, agrégalos aquí
         statement.setInt(i++, obj.getAdministrador().getId());
         statement.setInt(i++, obj.getDocente().getId());
     }

@@ -2,7 +2,9 @@ package com.assistuteam.assistu.controller;
 
 import java.util.List;
 
+import com.assistuteam.assistu.model.entity.Alumno;
 import com.assistuteam.assistu.model.entity.Usuario;
+import com.assistuteam.assistu.model.repository.RepositorioAlumno;
 import com.assistuteam.assistu.model.repository.RepositorioUsuario;
 
 /** @author assistu_team **/
@@ -60,5 +62,54 @@ public class ControladorUsuario extends Controlador<RepositorioUsuario, Usuario>
                 System.out.println(usuario);
             }
         });
+    }
+
+    // lo puse
+    public static Usuario login(String matricula, String contrasenia) {
+        try {
+            System.out.println("Login debug: '" + matricula + "' / '" + contrasenia + "'");
+            Usuario u = new RepositorioUsuario().obtenerPorMatriculaYContrasenia(matricula, contrasenia);
+            System.out.println("Resultado consulta: " + (u != null ? "Éxito" : "No encontrado"));
+            return u;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * Registra un usuario con cargo de alumno y su entidad Alumno asociada.
+     * @return true si el registro fue exitoso, false en caso contrario
+     */
+    public boolean registrarAlumno(String matricula, String contrasenia, String nombre, String apellidoP, String apellidoM, String correo, int cuatrimestre, String grupo, String carrera) {
+        try {
+            Usuario usuario = new Usuario();
+            usuario.setMatricula(matricula);
+            usuario.setContrasenia(contrasenia);
+            usuario.setNombre(nombre);
+            usuario.setApellidoPaterno(apellidoP);
+            usuario.setApellidoMaterno(apellidoM);
+            usuario.setCorreo(correo);
+            usuario.setTipoUsuario("alumno");
+
+            // Guardar usuario y obtener el id generado
+            boolean usuarioCreado = repositorio.crear(usuario);
+            if (!usuarioCreado) return false;
+            int idUsuario = usuario.getId(); // Asume que el repositorio actualiza el id
+
+            Alumno alumno = new Alumno();
+            alumno.setCuatrimestre(cuatrimestre);
+            alumno.setGrupo(grupo);
+            alumno.setCarrera(carrera);
+            alumno.setIdUsuario(idUsuario); // <-- CORRECTO
+
+            RepositorioAlumno repoAlumno = new RepositorioAlumno();
+            boolean alumnoCreado = repoAlumno.crear(alumno);
+
+            return alumnoCreado;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }

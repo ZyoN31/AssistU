@@ -1,8 +1,10 @@
 package com.assistuteam.assistu.model.repository;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+import com.assistuteam.assistu.model.Conexion;
 import com.assistuteam.assistu.model.entity.Usuario;
 
 /** @author assistu_team **/
@@ -38,5 +40,22 @@ public class RepositorioUsuario extends Repositorio<Usuario> {
         statement.setString(i++, obj.getApellidoMaterno());
         statement.setString(i++, obj.getCorreo());
         statement.setString(i++, obj.getTipoUsuario());
+    }
+
+    //tambien lo puse
+    public Usuario obtenerPorMatriculaYContrasenia(String matricula, String contrasenia) {
+        try (Connection conn = Conexion.obtenerInstancia().conectar()) {
+            String sql = "SELECT * FROM Usuarios WHERE matricula = ? COLLATE NOCASE AND contrasenia = ? COLLATE NOCASE";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, matricula.trim());
+            ps.setString(2, contrasenia.trim());
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return mappingObject(rs);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return null;
     }
 }

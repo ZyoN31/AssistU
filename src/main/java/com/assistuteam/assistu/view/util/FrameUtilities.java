@@ -1,16 +1,21 @@
 package com.assistuteam.assistu.view.util;
 
+import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GraphicsEnvironment;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
+import java.awt.Insets;
 import java.awt.RenderingHints;
 import java.awt.Toolkit;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -25,19 +30,25 @@ import javax.swing.border.EmptyBorder;
 @SuppressWarnings("all")
 public abstract class FrameUtilities extends JFrame{
 
-    // Etiquetas reutilizables
-    protected JLabel labelTitulo;
-    protected JLabel labelSubtitulo;
-    protected JLabel labelLogo;
-    protected JLabel labelTexto01;
-    protected JLabel labelTexto02;
-    protected JLabel labelTexto03;
-    protected JLabel labelTexto04;
-
     // Paneles reutilizables
     protected JPanel panelFondo;
     protected JPanel panelInterno01;
     protected JPanel panelInterno02;
+
+    // Etiquetas reutilizables
+    protected JLabel labelTitulo;
+    protected JLabel labelSubtitulo;
+    protected JLabel labelLogo;
+    protected JLabel labelMatricula;
+    protected JLabel labelContrasenia;
+    protected JLabel labelNombre;
+    protected JLabel labelApellidoP;
+    protected JLabel labelApellidoM;
+    protected JLabel labelCorreo;
+    protected JLabel labelTexto01;
+    protected JLabel labelTexto02;
+    protected JLabel labelTexto03;
+    protected JLabel labelTexto04;
 
     // Campos de texto reutilizables
     protected JTextField txFlMatricula;
@@ -56,6 +67,50 @@ public abstract class FrameUtilities extends JFrame{
     protected JButton btModificar;
     protected JButton btEliminar;
     protected JButton btLimpiar;
+    protected JButton btAceptar;
+    protected JButton btCerrarSesion;
+    protected JButton btVolver;
+
+    // Atributos de configuracion del JFrame y paneles
+    protected int defaultWidth = 1280; // Ancho por defecto del JFrame
+    protected int defaultHeight = 720; // Alto por defecto del JFrame
+    protected int arcHeightDefault = 75; // Alto de los bordes redondeados del panel interno
+    protected int arcWidthDefault = 75; // Ancho de los bordes redondeados del panel interno
+    protected int heightComponent = 25; // Alto por defecto de los componentes (campos de texto, botones, etc.)
+    protected int widthComponent = 300; // Ancho por defecto de los componentes (campos de texto, botones, etc.)
+    protected int generalPadPanel = 30;
+    protected int defaultFontSize = 21; // Tamaño de fuente por defecto para campos de texto
+    protected int centerComponent = (generalPadPanel + 10)*-1; // Padding horizontal para centrar componentes
+    private static Image iconoVentana;
+
+    public FrameUtilities() {
+        super();
+        aplicarIcono();
+    }
+
+    public static void cargarIcono(String ruta) {
+        java.net.URL url = FrameUtilities.class.getResource(ruta);
+        if (url != null) {
+            iconoVentana = new ImageIcon(url).getImage();
+        }
+    }
+
+    private void aplicarIcono() {
+        if (iconoVentana != null) {
+            setIconImage(iconoVentana);
+        }
+    }
+
+    // Obtiene una fuente registrada por nombre, o null si no existe
+    private Font getRegisteredFont(String fontName, float size, int style) {
+        Font[] fonts = GraphicsEnvironment.getLocalGraphicsEnvironment().getAllFonts();
+        for (Font f : fonts) {
+            if (f.getFontName().equalsIgnoreCase(fontName) || f.getName().equalsIgnoreCase(fontName)) {
+                return f.deriveFont(style, size);
+            }
+        }
+        return null;
+    }
 
     /**
      * Crea un JLabel con la fuente y alineacion especificadas
@@ -67,12 +122,20 @@ public abstract class FrameUtilities extends JFrame{
      */
     public JLabel setLabel(String text, int sizeFont, int type, char align) {
         JLabel label = new JLabel(text);
-        switch (type) {
-            case 1 -> label.setFont(UIManager.getFont("Label.font").deriveFont(Font.BOLD, sizeFont));
-            case 2 -> label.setFont(UIManager.getFont("Label.font").deriveFont(Font.BOLD, sizeFont));
-            case 3 -> label.setFont(UIManager.getFont("Label.font").deriveFont(Font.PLAIN, sizeFont));
-            default -> System.out.println("ERROR: Tipo de etiqueta invalido");
+        Font font = null;
+        String fontName = switch (type) {
+            case 1 -> "Sansation Regular";
+            case 2 -> "Readex Pro";
+            case 3 -> "Manjari Regular";
+            default -> null;
+        };
+        if (fontName != null) {
+            font = getRegisteredFont(fontName, sizeFont, type == 1 ? Font.BOLD : Font.PLAIN);
         }
+        if (font == null) {
+            font = new Font("SansSerif", type == 1 ? Font.BOLD : Font.PLAIN, sizeFont);
+        }
+        label.setFont(font);
         switch (align) {
             case 'L' -> label.setHorizontalAlignment(JLabel.LEFT);
             case 'C' -> label.setHorizontalAlignment(JLabel.CENTER);
@@ -92,14 +155,23 @@ public abstract class FrameUtilities extends JFrame{
      * @return JTextField configurado
      */
     public JTextField setTextField(String placeholder, int sizeFont, int width, int height, char align) {
-        JTextField textField = new JTextField(placeholder);
-        textField.setFont(UIManager.getFont("TextField.font").deriveFont(Font.PLAIN, sizeFont));
+        JTextField textField = new JTextField() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                Graphics2D g2 = (Graphics2D) g.create();
+                g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.75f)); // 50% transparencia
+                super.paintComponent(g2);
+                g2.dispose();
+            }
+        };
+        Font font = getRegisteredFont("Manjari Regular", sizeFont, Font.PLAIN);
+        if (font == null) font = UIManager.getFont("TextField.font").deriveFont(Font.PLAIN, sizeFont);
+        textField.setFont(font);
         textField.setPreferredSize(new Dimension(width, height));
         switch (align) {
             case 'L' -> textField.setHorizontalAlignment(JTextField.LEFT);
             case 'C' -> textField.setHorizontalAlignment(JTextField.CENTER);
             case 'R' -> textField.setHorizontalAlignment(JTextField.RIGHT);
-            default -> textField.setHorizontalAlignment(JTextField.LEFT);
         }
         return textField;
     }
@@ -114,8 +186,19 @@ public abstract class FrameUtilities extends JFrame{
      * @return JPasswordField configurado
      */
     public JPasswordField setPasswordField(String placeholder, int sizeFont, int width, int height, char align) {
-        JPasswordField passwordField = new JPasswordField(placeholder);
-        passwordField.setFont(UIManager.getFont("PasswordField.font").deriveFont(Font.PLAIN, sizeFont));
+        JPasswordField passwordField = new JPasswordField() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                Graphics2D g2 = (Graphics2D) g.create();
+                g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.75f)); // 50% transparencia
+                super.paintComponent(g2);
+                g2.dispose();
+            }
+        };
+
+        Font font = getRegisteredFont("Manjari Regular", sizeFont, Font.PLAIN);
+        if (font == null) font = UIManager.getFont("PasswordField.font").deriveFont(Font.PLAIN, sizeFont);
+        passwordField.setFont(font);
         passwordField.setPreferredSize(new Dimension(width, height));
         switch (align) {
             case 'L' -> passwordField.setHorizontalAlignment(JTextField.LEFT);
@@ -136,7 +219,9 @@ public abstract class FrameUtilities extends JFrame{
      */
     public JButton setButton(String text, int sizeFont, int width, int height) {
         JButton button = new JButton(text);
-        button.setFont(UIManager.getFont("Button.font").deriveFont(Font.BOLD, sizeFont));
+        Font font = getRegisteredFont("Sansation Regular", sizeFont, Font.BOLD);
+        if (font == null) font = UIManager.getFont("Button.font").deriveFont(Font.BOLD, sizeFont);
+        button.setFont(font);
         button.setPreferredSize(new Dimension(width, height));
         button.setFocusPainted(false); // Elimina el borde de enfoque
         return button;
@@ -170,10 +255,17 @@ public abstract class FrameUtilities extends JFrame{
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                Image bg = Toolkit.getDefaultToolkit().getImage(
-                    getClass().getResource(path)
-                );
-                g.drawImage(bg, 0, 0, getWidth(), getHeight(), this);
+                java.net.URL url = getClass().getResource(path);
+                if (url != null) {
+                    Image bg = Toolkit.getDefaultToolkit().getImage(url);
+                    g.drawImage(bg, 0, 0, getWidth(), getHeight(), this);
+                } else {
+                    // Si la imagen no existe, pinta fondo negro y muestra advertencia
+                    g.setColor(Color.BLACK);
+                    g.fillRect(0, 0, getWidth(), getHeight());
+                    g.setColor(Color.RED);
+                    g.drawString("Imagen no encontrada: " + path, 20, 20);
+                }
             }
         };
     }
@@ -188,7 +280,7 @@ public abstract class FrameUtilities extends JFrame{
     public JLabel setImageLabel(String path, int width, int height) {
         Image img = Toolkit.getDefaultToolkit().getImage(getClass().getResource(path));
         Image scaledImg = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
-        javax.swing.ImageIcon icon = new javax.swing.ImageIcon(scaledImg);
+        ImageIcon icon = new ImageIcon(scaledImg);
         JLabel label = new JLabel(icon);
         label.setPreferredSize(new Dimension(width, height));
         return label;
@@ -198,16 +290,16 @@ public abstract class FrameUtilities extends JFrame{
      * Crea un panel interno con fondo de degradado, bordes redondeados y transparencia
      * @param width ancho del panel
      * @param height alto del panel
-     * @param colorStart color de inicio del degradado (indice)
+     * @param colorIndex color de inicio del degradado (indice)
      * @param colorEnd color de fin del degradado (indice)
-     * @param arcWidth ancho de los bordes redondeados
-     * @param arcHeight alto de los bordes redondeados
      * @param padding espaciado interno del panel
      * @param alpha nivel de transparencia (0.0 = totalmente transparente, 1.0 = opaco)
+     * @param arcWidth ancho de los bordes redondeados
+     * @param arcHeight alto de los bordes redondeados
      * @return JPanel configurado
      */
-        public JPanel crearPanel(int width, int height, int colorStart, int colorEnd, int arcWidth, int arcHeight, int padding, float alpha) {
-        Color start = colorSelected(colorStart);
+    public JPanel crearPanelFlotante(int width, int height, int colorIndex, int colorEnd, int padding, float alpha, int arcWidth, int arcHeight) {
+        Color start = colorSelected(colorIndex);
         Color end = colorSelected(colorEnd);
         return new JPanel(new GridBagLayout()) {
             @Override
@@ -215,8 +307,8 @@ public abstract class FrameUtilities extends JFrame{
                 super.paintComponent(g);
                 Graphics2D g2 = (Graphics2D) g.create();
                 g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                g2.setComposite(java.awt.AlphaComposite.getInstance(java.awt.AlphaComposite.SRC_OVER, alpha));
-                java.awt.GradientPaint gp = new java.awt.GradientPaint(
+                g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
+                GradientPaint gp = new java.awt.GradientPaint(
                     0, 0, start,
                     0, getHeight(), end
                 );
@@ -229,7 +321,45 @@ public abstract class FrameUtilities extends JFrame{
             }
         };
     }
-    
+
+    /**
+     * Crea un panel estatico con color solido o degradado y transparencia
+     * @param width ancho del panel
+     * @param colorIndex indice del color de inicio
+     * @param colorEnd indice del color de fin
+     * @param padding espaciado interno del panel
+     * @param alpha nivel de transparencia (0.0 = totalmente transparente, 1.0 = opaco)
+     * @return JPanel configurado
+     */
+    public JPanel crearPanelEstatico(int width, int colorIndex, int colorEnd, int padding, float alpha) {
+        Color start = colorSelected(colorIndex);
+        Color end = colorSelected(colorEnd);
+        int height = defaultHeight; // Altura igual a la ventana
+        return new JPanel(new GridBagLayout()) {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2 = (Graphics2D) g.create();
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f)); // <-- Opaco siempre
+                if (!start.equals(end)) {
+                    GradientPaint gp = new GradientPaint(
+                        0, 0, start,
+                        0, getHeight(), end
+                    );
+                    g2.setPaint(gp);
+                } else {
+                    g2.setPaint(start);
+                }
+                g2.fillRect(0, 0, getWidth(), getHeight());
+                g2.dispose();
+                this.setPreferredSize(new Dimension(width, height));
+                this.setOpaque(true); // <-- Opaco
+                this.setBorder(null); // <-- Sin borde
+            }
+        };
+    }
+
     /**
      * Configura los atributos de GridBagConstraints para un componente
      * @param x posicion en la columna (x)
@@ -237,12 +367,12 @@ public abstract class FrameUtilities extends JFrame{
      * @param width tamano de las columnas que ocupa el componente
      * @param height tamano de las filas que ocupa el componente
      * @param responsive indica si el componente debe ser responsivo
-     * @param paddingVerticalTop espacio superior en pixeles
-     * @param paddingVerticalBottom espacio inferior en pixeles
-     * @param paddingHorizontal espacio izquierdo y derecho en pixeles
+     * @param paddingBottom espacio superior en pixeles
+     * @param paddingTop espacio inferior en pixeles
+     * @param padHorizontal espacio izquierdo y derecho en pixeles
      * @return GridBagConstraints configurado
      */
-    public GridBagConstraints setGridsAttributes(int x, int y, int width, int height, boolean responsive, int paddingVerticalTop, int paddingVerticalBottom, int paddingHorizontal) {
+    public GridBagConstraints setGridsAttributes(int x, int y, int width, int height, boolean responsive, int paddingBottom, int paddingTop, int paddingLeft, int paddingRight) {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = x;
         gbc.gridy = y;
@@ -252,7 +382,7 @@ public abstract class FrameUtilities extends JFrame{
         gbc.ipady = 10;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.weightx = responsive ? 1.0 : 0.0;
-        gbc.insets = new java.awt.Insets(paddingVerticalTop, paddingHorizontal, paddingVerticalBottom, paddingHorizontal);
+        gbc.insets = new Insets(paddingTop, paddingLeft, paddingBottom, paddingRight);
         return gbc;
     }
 
@@ -275,29 +405,21 @@ public abstract class FrameUtilities extends JFrame{
             Color color = UIManager.getColor(colorKey);
             if (color != null) return color;
         }
-        // Color por defecto si no se encuentra la clave
-        return Color.LIGHT_GRAY;
+        return Color.BLACK;
     }
 
-    // Getters para acceso externo
-    /**
-     * @return campo de texto de matricula
-     */
     public JTextField gettxFlMatricula() { return txFlMatricula; }
-    /**
-     * @return campo de contrasena
-     */
+
     public JPasswordField gettxFlContrasenia() { return txFlContrasenia; }
-    /**
-     * @return boton de iniciar sesion
-     */
-    public JButton getBotonIniciar() { return btIniciar; }
-    /**
-     * @return boton de registrar
-     */
-    public JButton getLabelRegistrate() { return btRegistrar; }
-    /**
-     * @return etiqueta de logo
-     */
-    public JLabel getLabelLogo() { return labelLogo; }
+
+    public JTextField gettxFlContraseniaVisible() { return txFlContraseniaVisible; }
+
+    public JTextField gettxFlNombre() { return txFlNombre; }
+
+    public JTextField gettxFlApellidoP() { return txFlApellidoP; }
+
+    public JTextField gettxFlApellidoM() { return txFlApellidoM; }
+
+    public JTextField gettxFlCorreo() { return txFlCorreo; }
+
 }

@@ -73,4 +73,8 @@ public class ControladorAdministrador extends Controlador<RepositorioAdministrad
             }
         });
     }
+
+    public List<Administrador> leerTodos() throws Exception {
+        return repositorio.leerTodos();
+    }
 }
