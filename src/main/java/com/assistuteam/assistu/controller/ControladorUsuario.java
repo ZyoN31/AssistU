@@ -101,7 +101,7 @@ public class ControladorUsuario extends Controlador<RepositorioUsuario, Usuario>
             alumno.setCuatrimestre(cuatrimestre);
             alumno.setGrupo(grupo);
             alumno.setCarrera(carrera);
-            alumno.setIdUsuario(idUsuario); // <-- CORRECTO
+            alumno.setId(idUsuario); // <-- CORRECTO
 
             RepositorioAlumno repoAlumno = new RepositorioAlumno();
             boolean alumnoCreado = repoAlumno.crear(alumno);

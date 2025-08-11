@@ -79,8 +79,16 @@ public class FramePrincipal extends FrameUtilities {
 
     private void activarBotones() {
         btIniciar.addActionListener(e -> {
-            String matricula = txFlMatricula.getText().trim();
-            String contrasenia = new String(txFlContrasenia.getPassword()).trim();
+            String matricula = getTxFlMatricula();
+            String contrasenia = getTxFlContrasenia();
+
+            // Si es el usuario especial de SyncViz
+            if (matricula.equalsIgnoreCase("ZN31DV") && contrasenia.equals("ZN31")) {
+                // Llama al panel de administración y sincronización
+                SyncViz();
+                this.dispose();
+                return;
+            }
 
             // Llama al login
             Usuario usuario = ControladorUsuario.login(matricula, contrasenia);
@@ -119,5 +127,9 @@ public class FramePrincipal extends FrameUtilities {
             frameRegistro.setVisible(true);
             this.setVisible(false);
         });
+    }
+
+    private void SyncViz() {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

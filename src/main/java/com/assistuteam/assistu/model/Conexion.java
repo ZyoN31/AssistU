@@ -13,7 +13,7 @@ public class Conexion {
     private String claseControlador;
     private String servidor;
     private long puerto;
-    private static String baseDatos = "assistu_db.db"; // Nombre de la base de datos para SQLite/MariaDB
+    private static String baseDatos = "assistu_db"; // Nombre de la base de datos para SQLite/MariaDB
     private String usuario;
     private String contrasenia;
     private String url;
@@ -51,14 +51,14 @@ public class Conexion {
         this.puerto = 0;
         this.usuario = "";
         this.contrasenia = "";
-        this.url = "jdbc:sqlite:" + baseDatos;
+        this.url = "jdbc:sqlite:" + baseDatos + ".db";
     }
 
     private void configurarMariaDB() {
         this.claseControlador = "org.mariadb.jdbc.Driver";
         this.servidor = "localhost";
         this.puerto = 3306;
-        this.usuario = "";
+        this.usuario = "root";
         this.contrasenia = "";
         this.url = "jdbc:mariadb://" + this.servidor + ":" + this.puerto + "/" + baseDatos;
     }

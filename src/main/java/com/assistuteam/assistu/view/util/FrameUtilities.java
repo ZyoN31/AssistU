@@ -17,6 +17,7 @@ import java.awt.Toolkit;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -45,6 +46,9 @@ public abstract class FrameUtilities extends JFrame{
     protected JLabel labelApellidoP;
     protected JLabel labelApellidoM;
     protected JLabel labelCorreo;
+    protected JLabel labelCuatrimestre;
+    protected JLabel labelGrupo;
+    protected JLabel labelCarrera;
     protected JLabel labelTexto01;
     protected JLabel labelTexto02;
     protected JLabel labelTexto03;
@@ -58,6 +62,9 @@ public abstract class FrameUtilities extends JFrame{
     protected JTextField txFlApellidoP;
     protected JTextField txFlApellidoM;
     protected JTextField txFlCorreo;
+    protected JComboBox<String> cbCuatrimestre;
+    protected JComboBox<String> cbGrupo;
+    protected JComboBox<String> cbCarrera;
 
     // Botones reutilizables
     protected JButton btIniciar;
@@ -159,7 +166,7 @@ public abstract class FrameUtilities extends JFrame{
             @Override
             protected void paintComponent(Graphics g) {
                 Graphics2D g2 = (Graphics2D) g.create();
-                g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.75f)); // 50% transparencia
+                g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.75f));
                 super.paintComponent(g2);
                 g2.dispose();
             }
@@ -190,7 +197,7 @@ public abstract class FrameUtilities extends JFrame{
             @Override
             protected void paintComponent(Graphics g) {
                 Graphics2D g2 = (Graphics2D) g.create();
-                g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.75f)); // 50% transparencia
+                g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.75f));
                 super.paintComponent(g2);
                 g2.dispose();
             }
@@ -223,8 +230,17 @@ public abstract class FrameUtilities extends JFrame{
         if (font == null) font = UIManager.getFont("Button.font").deriveFont(Font.BOLD, sizeFont);
         button.setFont(font);
         button.setPreferredSize(new Dimension(width, height));
-        button.setFocusPainted(false); // Elimina el borde de enfoque
+        button.setFocusPainted(false);
         return button;
+    }
+
+    public JComboBox setComboBox(String[] items, int sizeFont, int width, int height) {
+        JComboBox<String> comboBox = new JComboBox<>(items);
+        Font font = getRegisteredFont("Manjari Regular", sizeFont, Font.PLAIN);
+        if (font == null) font = UIManager.getFont("ComboBox.font").deriveFont(Font.PLAIN, sizeFont);
+        comboBox.setFont(font);
+        comboBox.setPreferredSize(new Dimension(width, height));
+        return comboBox;
     }
 
     /**
@@ -341,7 +357,7 @@ public abstract class FrameUtilities extends JFrame{
                 super.paintComponent(g);
                 Graphics2D g2 = (Graphics2D) g.create();
                 g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f)); // <-- Opaco siempre
+                g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
                 if (!start.equals(end)) {
                     GradientPaint gp = new GradientPaint(
                         0, 0, start,
@@ -354,8 +370,8 @@ public abstract class FrameUtilities extends JFrame{
                 g2.fillRect(0, 0, getWidth(), getHeight());
                 g2.dispose();
                 this.setPreferredSize(new Dimension(width, height));
-                this.setOpaque(true); // <-- Opaco
-                this.setBorder(null); // <-- Sin borde
+                this.setOpaque(true);
+                this.setBorder(null);
             }
         };
     }
@@ -408,18 +424,24 @@ public abstract class FrameUtilities extends JFrame{
         return Color.BLACK;
     }
 
-    public JTextField gettxFlMatricula() { return txFlMatricula; }
+    public String getTxFlMatricula() { return txFlMatricula.getText().trim(); }
 
-    public JPasswordField gettxFlContrasenia() { return txFlContrasenia; }
+    public String getTxFlContrasenia() { return new String(txFlContrasenia.getPassword()).trim(); }
 
-    public JTextField gettxFlContraseniaVisible() { return txFlContraseniaVisible; }
+    public String getTxFlContraseniaVisible() { return txFlContraseniaVisible.getText().trim(); }
 
-    public JTextField gettxFlNombre() { return txFlNombre; }
+    public String getTxFlNombre() { return txFlNombre.getText().trim(); }
 
-    public JTextField gettxFlApellidoP() { return txFlApellidoP; }
+    public String getTxFlApellidoP() { return txFlApellidoP.getText().trim(); }
 
-    public JTextField gettxFlApellidoM() { return txFlApellidoM; }
+    public String getTxFlApellidoM() { return txFlApellidoM.getText().trim(); }
 
-    public JTextField gettxFlCorreo() { return txFlCorreo; }
+    public String getTxFlCorreo() { return txFlCorreo.getText().trim(); }
+
+    public int getCbCuatrimestre() { return Integer.parseInt((String) cbCuatrimestre.getSelectedItem()); }
+
+    public String getCbGrupo() { return (String) cbGrupo.getSelectedItem(); }
+
+    public String getCbCarrera() { return (String) cbCarrera.getSelectedItem(); }
 
 }
