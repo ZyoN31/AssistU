@@ -14,7 +14,7 @@ public class Usuario extends Entidad {
     protected String apellidoPaterno;
     protected String apellidoMaterno;
     protected String correo;
-    protected String tipoUsuario; // Puede ser "Alumno", "Docente" o "Administrador"
+    protected String tipoUsuario; // Puede ser "Docente" o "Administrador"
 
     public Usuario() {
         super();

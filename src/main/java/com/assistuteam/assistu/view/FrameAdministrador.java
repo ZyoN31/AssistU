@@ -21,7 +21,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 
-import com.assistuteam.assistu.controller.ControladorAdministrador;
 import com.assistuteam.assistu.model.entity.Usuario;
 import com.assistuteam.assistu.view.util.FramePanelBase;
 
@@ -29,14 +28,13 @@ import com.assistuteam.assistu.view.util.FramePanelBase;
 public class FrameAdministrador extends FramePanelBase {
 
     private final Usuario usuario;
-    private ControladorAdministrador controladorAdministrador;
 
     public FrameAdministrador(Usuario usuario) {
         this.usuario = usuario;
         setTitle("AssistU - Administrador " + usuario.getNombre());
 
         try {
-            this.controladorAdministrador = new ControladorAdministrador();
+            // this.controladorAdministrador = new ControladorAdministrador();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error al inicializar el controlador: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             this.dispose();
@@ -341,7 +339,7 @@ public class FrameAdministrador extends FramePanelBase {
         panelCantidad.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         try {
-            int numeroDeAdministradores = controladorAdministrador.leerTodos().size(); // Real
+            // int numeroDeAdministradores = controladorAdministrador.leerTodos().size(); // Real
             panelCantidad.add(crearTarjetaCantidad("Número de grupos:", "5"), setGridsAttributes(0, 0, 1, 1, false, 5, 5, 0, 0));
             panelCantidad.add(crearTarjetaCantidad("Número de maestros disponibles:", "15"), setGridsAttributes(1, 0, 1, 1, false, 5, 5, 0, 0));
             panelCantidad.add(crearTarjetaCantidad("Números de solicitudes:", "3"), setGridsAttributes(0, 1, 1, 1, false, 5, 5, 0, 0));

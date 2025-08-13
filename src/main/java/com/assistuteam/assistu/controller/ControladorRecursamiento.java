@@ -19,8 +19,10 @@ public class ControladorRecursamiento extends Controlador<RepositorioRecursamien
         if (obj.getMateria() == null || obj.getMateria().isEmpty()) throw new Exception("La materia del recursamiento es obligatoria");
         if (obj.getGrupo() == null || obj.getGrupo().isEmpty()) throw new Exception("El grupo del recursamiento es obligatorio");
         if (obj.getHorario() == null || obj.getHorario().isEmpty()) throw new Exception("El horario del recursamiento es obligatorio");
+        /*
         if (obj.getAdministrador() == null) throw new Exception("El administrador del recursamiento es obligatorio");
         if (obj.getDocente() == null) throw new Exception("El docente del recursamiento es obligatorio");
+        */
         return true;
     }
 
@@ -57,7 +59,7 @@ public class ControladorRecursamiento extends Controlador<RepositorioRecursamien
             }
         });
     }
-    
+    /*
     public void buscarPorDocente(String docente) throws Exception {
         List<Recursamiento> recursamientos = repositorio.leerTodos();
         recursamientos.forEach(recursamiento -> {
@@ -66,4 +68,5 @@ public class ControladorRecursamiento extends Controlador<RepositorioRecursamien
             }
         });
     }
+    */
 }

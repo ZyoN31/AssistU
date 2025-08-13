@@ -23,10 +23,12 @@ public class RepositorioRecursamiento extends Repositorio<Recursamiento> {
         
         int idAdministrador = result.getInt(5);
         int idDocente = result.getInt(6);
+        /*
         RepositorioAdministrador repoAdministrador = new RepositorioAdministrador();
         RepositorioDocente repoDocente = new RepositorioDocente();
         objRecursamiento.setAdministrador(repoAdministrador.leer(idAdministrador));
         objRecursamiento.setDocente(repoDocente.leer(idDocente));
+        */
         return objRecursamiento;
     }
 
@@ -37,7 +39,5 @@ public class RepositorioRecursamiento extends Repositorio<Recursamiento> {
         statement.setString(i++, obj.getMateria());
         statement.setString(i++, obj.getGrupo());
         statement.setString(i++, obj.getHorario());
-        statement.setInt(i++, obj.getAdministrador().getId());
-        statement.setInt(i++, obj.getDocente().getId());
     }
 }

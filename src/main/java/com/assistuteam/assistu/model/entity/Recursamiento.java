@@ -11,8 +11,6 @@ public class Recursamiento extends Entidad {
     private String materia;
     private String grupo;
     private String horario;
-    private Administrador administrador;
-    private Docente docente;
 
     public Recursamiento() {
         super();
@@ -20,8 +18,6 @@ public class Recursamiento extends Entidad {
         this.materia = "";
         this.grupo = "";
         this.horario = "";
-        this.administrador = new Administrador();
-        this.docente = new Docente();
     }
 
     @Override
@@ -31,8 +27,6 @@ public class Recursamiento extends Entidad {
                 ", materia='" + materia + '\'' +
                 ", grupo='" + grupo + '\'' +
                 ", horario='" + horario + '\'' +
-                ", administrador=" + administrador +
-                ", docente=" + docente +
                 '}';
     }
 }
