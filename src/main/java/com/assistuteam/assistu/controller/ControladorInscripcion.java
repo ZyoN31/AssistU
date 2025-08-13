@@ -51,4 +51,11 @@ public class ControladorInscripcion extends Controlador<RepositorioInscripcion, 
                 .filter(i -> i.getFecha().equals(fecha))
                 .toList();
     }
+
+    public List<Inscripcion> historialPorAlumno(String matriculaAlumno) throws Exception {
+        return repositorio.leerTodos()
+            .stream()
+            .filter(i -> i.getMatriculaAlumno().equalsIgnoreCase(matriculaAlumno))
+            .toList();
+    }
 }

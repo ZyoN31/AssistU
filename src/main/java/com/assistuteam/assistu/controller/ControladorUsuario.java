@@ -31,4 +31,13 @@ public class ControladorUsuario extends Controlador<RepositorioUsuario, Usuario>
                 .findFirst()
                 .orElse(null);
     }
+
+    public Usuario login(String matricula, String contrasenia) throws Exception {
+        return repositorio.leerTodos()
+            .stream()
+            .filter(u -> u.getMatricula().equalsIgnoreCase(matricula)
+                      && u.getContrasenia().equals(contrasenia))
+            .findFirst()
+            .orElse(null);
+    }
 }

@@ -36,4 +36,17 @@ public class ControladorAlumno extends Controlador<RepositorioAlumno, Alumno> {
                 .filter(a -> a.getNombre().equalsIgnoreCase(nombre))
                 .toList();
     }
+
+    public Alumno login(String matricula, String contrasenia) throws Exception {
+        return repositorio.leerTodos()
+            .stream()
+            .filter(a -> a.getMatricula().equalsIgnoreCase(matricula)
+                      && a.getContrasenia().equals(contrasenia))
+            .findFirst()
+            .orElse(null);
+    }
+
+    public boolean guardarAlumno(Alumno alumno) throws Exception {
+        return guardar(alumno);
+    }
 }

@@ -56,10 +56,7 @@ INSERT INTO Tipo_usuario (id_tipo_usuario, tipo_usuario, cargo) VALUES
 (2, 'Docente', 'Profesor'),
 (3, 'Administrador', 'Personal administrativo');
 
-INSERT INTO Usuarios (matricula_usuario, contrasenia, nombre, apellido_paterno, apellido_materno, correo, id_tipo_usuario) VALUES
-('CMSO240614', 'SAM123', 'Samaria', 'Cervantes', 'Martinez', 'cmso240614@upemor.edu.mx', 1),  -- Samaria y Martinez SIN acento
-('MJJO240217', 'Jose4567', 'José', 'Martinez', 'Jacobo', 'MJJO240217@upemor.edu.mx', 1),      -- Martinez SIN acento
-('DVKO240202', 'Kevin5677', 'Kevin', 'Diaz', 'Vega', 'DVKO240202@upemor.edu.mx', 1),           -- Diaz SIN acento (corregido de Dias→Diaz)
+INSERT INTO Usuarios (matricula_usuario, contrasenia, nombre, apellido_paterno, apellido_materno, correo, id_tipo_usuario) VALUES     -- Diaz SIN acento (corregido de Dias→Diaz)
 ('JOSOUBUHAY', 'MINA78', 'Samuel', 'Arroyo', 'Soto', 'JOSOUBUHAY@upemor.edu.mx', 2),
 ('MDSO245577', 'RANIt@', 'Sebastián', 'Soto', 'Méndez', 'MDSO245577@upemor.edu.mx', 2),
 ('HDMIAL0970', 'Aldo90', 'Áxel', 'Ortiz', 'Domínguez', 'HDMIAL0970@upemor.edu.mx', 3),
