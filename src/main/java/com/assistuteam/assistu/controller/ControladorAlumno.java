@@ -1,13 +1,9 @@
 package com.assistuteam.assistu.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.assistuteam.assistu.model.entity.Alumno;
-import com.assistuteam.assistu.model.entity.Inscripcion;
-import com.assistuteam.assistu.model.entity.Recursamiento;
 import com.assistuteam.assistu.model.repository.RepositorioAlumno;
-import com.assistuteam.assistu.model.repository.RepositorioInscripcion;
 
 /** @author assistu_team **/
 
@@ -19,104 +15,25 @@ public class ControladorAlumno extends Controlador<RepositorioAlumno, Alumno> {
 
     @Override
     protected boolean validar(Alumno obj) throws Exception {
-        if (obj.getId() < 0) throw new Exception("El ID del administrador es obligatorio");
-        if (obj.getCuatrimestre() < 1) throw new Exception("El cuatrimestre del alumno es obligatorio y debe ser mayor a 0");
-        if (obj.getGrupo() == null || obj.getGrupo().isEmpty()) throw new Exception("El grupo del alumno es obligatorio");
-        if (obj.getCarrera() == null || obj.getCarrera().isEmpty()) throw new Exception("La carrera del alumno es obligatoria");
+        if (obj.getId() < 0) throw new Exception("El ID del alumno es obligatorio");
+        if (obj.getCuatrimestre() < 1) throw new Exception("El cuatrimestre debe ser mayor a 0");
+        if (obj.getGrupo() == null || obj.getGrupo().isEmpty()) throw new Exception("El grupo es obligatorio");
+        if (obj.getCarrera() == null || obj.getCarrera().isEmpty()) throw new Exception("La carrera es obligatoria");
         return true;
     }
 
-    public Alumno obtenerPorMatricula(String matricula) throws Exception {
-        List<Alumno> alumnos = repositorio.leerTodos();
-        for (Alumno alumno : alumnos) {
-            if (alumno.getMatricula().equalsIgnoreCase(matricula)) {
-                return alumno;
-            }
-        }
-        throw new Exception("No se encontró ningún alumno con la matrícula: " + matricula);
+    public Alumno buscarPorMatricula(String matricula) throws Exception {
+        return repositorio.leerTodos()
+                .stream()
+                .filter(a -> a.getMatricula().equalsIgnoreCase(matricula))
+                .findFirst()
+                .orElse(null);
     }
 
-    public List<Recursamiento> obtenerHistorialRecursamientos(int idAlumno) throws Exception {
-    RepositorioInscripcion repoInscripcion = new RepositorioInscripcion();
-    List<Inscripcion> inscripciones = repoInscripcion.leerTodos();
-    List<Recursamiento> historial = new ArrayList<>();
-    for (Inscripcion insc : inscripciones) {
-        if (insc.getAlumno() != null && insc.getAlumno().getId() == idAlumno) {
-            historial.add(insc.getRecursamiento());
-        }
-    }
-    return historial;
-}
-
-    public void buscarPorMatricula(String matricula) throws Exception {
-        List<Alumno> alumnos = repositorio.leerTodos();
-        alumnos.forEach(alumno -> {
-            if (alumno.getMatricula().equalsIgnoreCase(matricula)) {
-                System.out.println(alumno);
-            }
-        });
-    }
-
-    public void buscarPorNombre(String nombre) throws Exception {
-        List<Alumno> alumnos = repositorio.leerTodos();
-        alumnos.forEach(alumno -> {
-            if (alumno.getNombre().equalsIgnoreCase(nombre)) {
-                System.out.println(alumno);
-            }
-        });
-    }
-
-    public void buscarPorApellidoPaterno(String apellidoPaterno) throws Exception {
-        List<Alumno> alumnos = repositorio.leerTodos();
-        alumnos.forEach(alumno -> {
-            if (alumno.getApellidoPaterno().equalsIgnoreCase(apellidoPaterno)) {
-                System.out.println(alumno);
-            }
-        });
-    }
-
-    public void buscarPorApellidoMaterno(String apellidoMaterno) throws Exception {
-        List<Alumno> alumnos = repositorio.leerTodos();
-        alumnos.forEach(alumno -> {
-            if (alumno.getApellidoMaterno().equalsIgnoreCase(apellidoMaterno)) {
-                System.out.println(alumno);
-            }
-        });
-    }
-
-    public void buscarPorCorreo(String correo) throws Exception {
-        List<Alumno> alumnos = repositorio.leerTodos();
-        alumnos.forEach(alumno -> {
-            if (alumno.getCorreo().equalsIgnoreCase(correo)) {
-                System.out.println(alumno);
-            }
-        });
-    }
-
-    public void buscarPorCuatrimestre(int cuatrimestre) throws Exception {
-        List<Alumno> alumnos = repositorio.leerTodos();
-        alumnos.forEach(alumno -> {
-            if (alumno.getCuatrimestre() == cuatrimestre) {
-                System.out.println(alumno);
-            }
-        });
-    }
-
-    public void buscarPorGrupo(String grupo) throws Exception {
-        List<Alumno> alumnos = repositorio.leerTodos();
-        alumnos.forEach(alumno -> {
-            if (alumno.getGrupo().equalsIgnoreCase(grupo)) {
-                System.out.println(alumno);
-            }
-        });
-    }
-
-    public void buscarPorCarrera(String carrera) throws Exception {
-        List<Alumno> alumnos = repositorio.leerTodos();
-        alumnos.forEach(alumno -> {
-            if (alumno.getCarrera().equalsIgnoreCase(carrera)) {
-                System.out.println(alumno);
-            }
-        });
+    public List<Alumno> buscarPorNombre(String nombre) throws Exception {
+        return repositorio.leerTodos()
+                .stream()
+                .filter(a -> a.getNombre().equalsIgnoreCase(nombre))
+                .toList();
     }
 }

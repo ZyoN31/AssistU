@@ -1,10 +1,8 @@
 package com.assistuteam.assistu.model.repository;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-import com.assistuteam.assistu.model.Conexion;
 import com.assistuteam.assistu.model.entity.Usuario;
 
 /** @author assistu_team **/
@@ -12,50 +10,33 @@ import com.assistuteam.assistu.model.entity.Usuario;
 @SuppressWarnings("all")
 public class RepositorioUsuario extends Repositorio<Usuario> {
     public RepositorioUsuario() throws Exception {
-        super("Usuarios", "usuario", 8);
+        super("Usuarios", "usuario", 8); // id_usuario + 7 campos
     }
 
     @Override
     protected Usuario mappingObject(ResultSet result) throws Exception {
-        Usuario objUsuario = new Usuario();
-        objUsuario.setId(result.getInt(1)); // id_usuario
-        objUsuario.setMatricula(result.getString(2));
-        objUsuario.setContrasenia(result.getString(3));
-        objUsuario.setNombre(result.getString(4));
-        objUsuario.setApellidoPaterno(result.getString(5));
-        objUsuario.setApellidoMaterno(result.getString(6));
-        objUsuario.setCorreo(result.getString(7));
-        objUsuario.setTipoUsuario(result.getString(8));
-        return objUsuario;
+        Usuario usuario = new Usuario();
+        usuario.setId(result.getInt("id_usuario"));
+        usuario.setMatricula(result.getString("matricula_usuario"));
+        usuario.setContrasenia(result.getString("contrasenia"));
+        usuario.setNombre(result.getString("nombre"));
+        usuario.setApellidoPaterno(result.getString("apellido_paterno"));
+        usuario.setApellidoMaterno(result.getString("apellido_materno"));
+        usuario.setCorreo(result.getString("correo"));
+        usuario.setIdTipoUsuario(result.getInt("id_tipo_usuario"));
+        return usuario;
     }
 
     @Override
-    protected void setStatementParameters(PreparedStatement statement, Usuario obj, boolean nuevoObjeto) throws Exception {
+    protected void setStatementParameters(PreparedStatement statement, Usuario usuario, boolean nuevoObjeto) throws Exception {
         int i = 1;
-        if (!nuevoObjeto) statement.setInt(i++, obj.getId());
-        statement.setString(i++, obj.getMatricula());
-        statement.setString(i++, obj.getContrasenia());
-        statement.setString(i++, obj.getNombre());
-        statement.setString(i++, obj.getApellidoPaterno());
-        statement.setString(i++, obj.getApellidoMaterno());
-        statement.setString(i++, obj.getCorreo());
-        statement.setString(i++, obj.getTipoUsuario());
-    }
-
-    //tambien lo puse
-    public Usuario obtenerPorMatriculaYContrasenia(String matricula, String contrasenia) {
-        try (Connection conn = Conexion.obtenerInstancia().conectar()) {
-            String sql = "SELECT * FROM Usuarios WHERE matricula = ? COLLATE NOCASE AND contrasenia = ? COLLATE NOCASE";
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, matricula.trim());
-            ps.setString(2, contrasenia.trim());
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                return mappingObject(rs);
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        return null;
+        if (!nuevoObjeto) statement.setInt(i++, usuario.getId());
+        statement.setString(i++, usuario.getMatricula());
+        statement.setString(i++, usuario.getContrasenia());
+        statement.setString(i++, usuario.getNombre());
+        statement.setString(i++, usuario.getApellidoPaterno());
+        statement.setString(i++, usuario.getApellidoMaterno());
+        statement.setString(i++, usuario.getCorreo());
+        statement.setInt(i++, usuario.getIdTipoUsuario());
     }
 }

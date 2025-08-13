@@ -4,45 +4,43 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 import com.assistuteam.assistu.model.entity.Alumno;
-import com.assistuteam.assistu.model.entity.Usuario;
 
 /** @author assistu_team **/
 
 @SuppressWarnings("all")
 public class RepositorioAlumno extends Repositorio<Alumno> {
     public RepositorioAlumno() throws Exception {
-        super("Alumnos", "alumno", 5);
+        super("Alumnos", "alumno", 10); // id_alumno + 9 campos
     }
 
     @Override
     protected Alumno mappingObject(ResultSet result) throws Exception {
-        Alumno objAlumno = new Alumno();
-        objAlumno.setId(result.getInt(1));
-        objAlumno.setCuatrimestre(result.getInt(2));
-        objAlumno.setGrupo(result.getString(3));
-        objAlumno.setCarrera(result.getString(4));
-        int idUsuario = result.getInt(5);
-
-        // Datos del Usuario Alumno
-        RepositorioUsuario repoUsuario = new RepositorioUsuario();
-        Usuario usuario = repoUsuario.leer(idUsuario);
-        if (usuario != null) {
-            objAlumno.setMatricula(usuario.getMatricula());
-            objAlumno.setNombre(usuario.getNombre());
-            objAlumno.setApellidoPaterno(usuario.getApellidoPaterno());
-            objAlumno.setApellidoMaterno(usuario.getApellidoMaterno());
-            objAlumno.setCorreo(usuario.getCorreo());
-        }
-        return objAlumno;
+        Alumno alumno = new Alumno();
+        alumno.setId(result.getInt("id_alumno"));
+        alumno.setMatricula(result.getString("matricula_alumno"));
+        alumno.setContrasenia(result.getString("contrasenia"));
+        alumno.setNombre(result.getString("nombre"));
+        alumno.setApellidoPaterno(result.getString("apellido_paterno"));
+        alumno.setApellidoMaterno(result.getString("apellido_materno"));
+        alumno.setCorreo(result.getString("correo"));
+        alumno.setCuatrimestre(result.getInt("cuatrimestre"));
+        alumno.setGrupo(result.getString("grupo"));
+        alumno.setCarrera(result.getString("carrera"));
+        return alumno;
     }
 
     @Override
-    protected void setStatementParameters(PreparedStatement statement, Alumno obj, boolean nuevoObjeto) throws Exception {
+    protected void setStatementParameters(PreparedStatement statement, Alumno alumno, boolean nuevoObjeto) throws Exception {
         int i = 1;
-        if (!nuevoObjeto) statement.setInt(i++, obj.getId()); // id_alumno
-        statement.setInt(i++, obj.getCuatrimestre());
-        statement.setString(i++, obj.getGrupo());
-        statement.setString(i++, obj.getCarrera());
-        statement.setInt(i++, obj.getId());
+        if (!nuevoObjeto) statement.setInt(i++, alumno.getId());
+        statement.setString(i++, alumno.getMatricula());
+        statement.setString(i++, alumno.getContrasenia());
+        statement.setString(i++, alumno.getNombre());
+        statement.setString(i++, alumno.getApellidoPaterno());
+        statement.setString(i++, alumno.getApellidoMaterno());
+        statement.setString(i++, alumno.getCorreo());
+        statement.setInt(i++, alumno.getCuatrimestre());
+        statement.setString(i++, alumno.getGrupo());
+        statement.setString(i++, alumno.getCarrera());
     }
 }

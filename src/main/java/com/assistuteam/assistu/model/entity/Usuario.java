@@ -8,16 +8,15 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Usuario extends Entidad {
-    protected String matricula;
-    protected String contrasenia;
-    protected String nombre;
-    protected String apellidoPaterno;
-    protected String apellidoMaterno;
-    protected String correo;
-    protected String tipoUsuario; // Puede ser "Docente" o "Administrador"
+    private String matricula;
+    private String contrasenia;
+    private String nombre;
+    private String apellidoPaterno;
+    private String apellidoMaterno;
+    private String correo;
+    private int idTipoUsuario; // FK a TipoUsuario
 
     public Usuario() {
-        super();
         this.id = 0;
         this.matricula = "";
         this.contrasenia = "";
@@ -25,19 +24,6 @@ public class Usuario extends Entidad {
         this.apellidoPaterno = "";
         this.apellidoMaterno = "";
         this.correo = "";
-        this.tipoUsuario = "";
-    }
-
-    @Override
-    public String toString() {
-        return "Usuario{" +
-                "id=" + id +
-                ", matricula='" + matricula + '\'' +
-                ", nombre='" + nombre + '\'' +
-                ", apellidoPaterno='" + apellidoPaterno + '\'' +
-                ", apellidoMaterno='" + apellidoMaterno + '\'' +
-                ", correo='" + correo + '\'' +
-                ", tipoUsuario='" + tipoUsuario + '\'' +
-                '}';
+        this.idTipoUsuario = 0;
     }
 }

@@ -123,6 +123,7 @@ public abstract class Repositorio <T extends Entidad> {
         try {
             if(obj.getId() <=0) throw new Exception("No hay id <= a 0");
             preparedStatement = conexion.conectar().prepareStatement(queryUpdate);
+            setStatementParameters(preparedStatement, obj, false);
             long result = preparedStatement.executeUpdate();
             return result >= 0;
         } catch (Exception e) {

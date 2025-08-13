@@ -10,34 +10,27 @@ import com.assistuteam.assistu.model.entity.Recursamiento;
 @SuppressWarnings("all")
 public class RepositorioRecursamiento extends Repositorio<Recursamiento> {
     public RepositorioRecursamiento() throws Exception {
-        super("Recursamientos", "recursamiento", 6);
+        super("Recursamientos", "recursamiento", 5); // id_recursamiento + 4 campos
     }
 
     @Override
     protected Recursamiento mappingObject(ResultSet result) throws Exception {
-        Recursamiento objRecursamiento = new Recursamiento();
-        objRecursamiento.setId(result.getInt(1));
-        objRecursamiento.setMateria(result.getString(2));
-        objRecursamiento.setGrupo(result.getString(3));
-        objRecursamiento.setHorario(result.getString(4));
-        
-        int idAdministrador = result.getInt(5);
-        int idDocente = result.getInt(6);
-        /*
-        RepositorioAdministrador repoAdministrador = new RepositorioAdministrador();
-        RepositorioDocente repoDocente = new RepositorioDocente();
-        objRecursamiento.setAdministrador(repoAdministrador.leer(idAdministrador));
-        objRecursamiento.setDocente(repoDocente.leer(idDocente));
-        */
-        return objRecursamiento;
+        Recursamiento recursamiento = new Recursamiento();
+        recursamiento.setId(result.getInt("id_recursamiento"));
+        recursamiento.setMateria(result.getString("materia"));
+        recursamiento.setGrupo(result.getString("grupo"));
+        recursamiento.setHorario(result.getString("horario"));
+        recursamiento.setMatriculaUsuario(result.getString("matricula_usuario"));
+        return recursamiento;
     }
 
     @Override
-    protected void setStatementParameters(PreparedStatement statement, Recursamiento obj, boolean nuevoObjeto) throws Exception {
+    protected void setStatementParameters(PreparedStatement statement, Recursamiento recursamiento, boolean nuevoObjeto) throws Exception {
         int i = 1;
-        if (!nuevoObjeto) statement.setInt(i++, obj.getId());
-        statement.setString(i++, obj.getMateria());
-        statement.setString(i++, obj.getGrupo());
-        statement.setString(i++, obj.getHorario());
+        if (!nuevoObjeto) statement.setInt(i++, recursamiento.getId());
+        statement.setString(i++, recursamiento.getMateria());
+        statement.setString(i++, recursamiento.getGrupo());
+        statement.setString(i++, recursamiento.getHorario());
+        statement.setString(i++, recursamiento.getMatriculaUsuario());
     }
 }
