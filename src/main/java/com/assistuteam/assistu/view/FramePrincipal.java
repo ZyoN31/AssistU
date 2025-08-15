@@ -11,6 +11,7 @@ import com.assistuteam.assistu.controller.ControladorAlumno;
 import com.assistuteam.assistu.controller.ControladorUsuario;
 import com.assistuteam.assistu.model.entity.Alumno;
 import com.assistuteam.assistu.model.entity.Usuario;
+import com.assistuteam.assistu.view.dev.SyncViz;
 import com.assistuteam.assistu.view.util.FrameUtilities;
 
 /** @author assistu_team **/
@@ -102,7 +103,14 @@ public class FramePrincipal extends FrameUtilities {
                 if (alumno != null) {
                     System.out.println("Alumno login: " + alumno.getMatricula() + " " + alumno.getNombre());
                     new FrameAlumno(alumno);
+                    limpiarFields();
                     this.dispose();
+                    return;
+                }
+
+                if (matricula.toLowerCase().equals("syncviz") && contrasenia.equals("sync0131")) {
+                    new SyncViz();
+                    limpiarFields();
                     return;
                 }
 

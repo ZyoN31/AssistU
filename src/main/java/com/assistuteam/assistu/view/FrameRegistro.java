@@ -184,6 +184,7 @@ public class FrameRegistro extends FrameUtilities {
                     JOptionPane.showMessageDialog(this, "Registro exitoso", "Registro AssistU", JOptionPane.INFORMATION_MESSAGE);
                     framePrincipal.setVisible(true);
                     this.setVisible(false);
+                    limpiarFields();
                 } else {
                     JOptionPane.showMessageDialog(this, "Error al registrar el alumno", "Error de registro", JOptionPane.ERROR_MESSAGE);
                 }

@@ -27,7 +27,7 @@ public class ControladorUsuario extends Controlador<RepositorioUsuario, Usuario>
     public Usuario buscarPorMatricula(String matricula) throws Exception {
         return repositorio.leerTodos()
                 .stream()
-                .filter(u -> u.getMatricula().equalsIgnoreCase(matricula))
+                .filter(u -> u.getMatricula().equalsIgnoreCase(matricula.toUpperCase()))
                 .findFirst()
                 .orElse(null);
     }
@@ -35,7 +35,7 @@ public class ControladorUsuario extends Controlador<RepositorioUsuario, Usuario>
     public Usuario login(String matricula, String contrasenia) throws Exception {
         return repositorio.leerTodos()
             .stream()
-            .filter(u -> u.getMatricula().equalsIgnoreCase(matricula)
+            .filter(u -> u.getMatricula().equalsIgnoreCase(matricula.toUpperCase())
                       && u.getContrasenia().equals(contrasenia))
             .findFirst()
             .orElse(null);

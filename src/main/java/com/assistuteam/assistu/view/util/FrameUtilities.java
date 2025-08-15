@@ -302,6 +302,16 @@ public abstract class FrameUtilities extends JFrame{
         return label;
     }
 
+    public void limpiarFields() {
+        txFlMatricula.setText("");
+        txFlContrasenia.setText("");
+        txFlContraseniaVisible.setText("");
+        txFlNombre.setText("");
+        txFlApellidoP.setText("");
+        txFlApellidoM.setText("");
+        txFlCorreo.setText("");
+    }
+
     /**
      * Crea un panel interno con fondo de degradado, bordes redondeados y transparencia
      * @param width ancho del panel
