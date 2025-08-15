@@ -1,3 +1,87 @@
-<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="assistu_db.db" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure browser pragmas query" current="1"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="100"/><column_width id="3" width="2312"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><table title="Usuarios" custom_title="0" dock_id="1" table="4,8:mainUsuarios"/><dock_state state="000000ff00000000fd00000001000000020000050600000358fc0100000001fb000000160064006f0063006b00420072006f00770073006500310100000000000005060000011900ffffff000002590000000000000004000000040000000800000008fc00000000"/><default_encoding codec=""/><browse_table_settings><table schema="main" name="Alumnos" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="109"/><column index="2" value="78"/><column index="3" value="62"/><column index="4" value="102"/><column index="5" value="106"/><column index="6" value="195"/><column index="7" value="79"/><column index="8" value="41"/><column index="9" value="179"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="Inscripciones" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="111"/><column index="2" value="107"/><column index="3" value="85"/><column index="4" value="70"/><column index="5" value="78"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="Recursamientos" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="106"/><column index="2" value="132"/><column index="3" value="41"/><column index="4" value="93"/><column index="5" value="111"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="Tipo_usuario" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="95"/><column index="2" value="109"/><column index="3" value="187"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="Usuarios" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="109"/><column index="2" value="78"/><column index="3" value="78"/><column index="4" value="102"/><column index="5" value="106"/><column index="6" value="195"/><column index="7" value="97"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table></browse_table_settings></tab_browse><tab_sql><sql name="SQL 1*">
-
-DELETE FROM Usuarios WHERE id_tipo_usuario = 1;</sql><current_tab id="0"/></tab_sql></sqlb_project>
+<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="assistu_db.db" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure browser pragmas query" current="1"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="100"/><column_width id="3" width="2312"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><table title="Alumnos" custom_title="0" dock_id="1" table="4,7:mainAlumnos"/><dock_state state="000000ff00000000fd00000001000000020000050600000358fc0100000001fb000000160064006f0063006b00420072006f00770073006500310100000000000005060000011900ffffff000002590000000000000004000000040000000800000008fc00000000"/><default_encoding codec=""/><browse_table_settings><table schema="main" name="Alumnos" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="67"/><column index="2" value="109"/><column index="3" value="78"/><column index="4" value="62"/><column index="5" value="102"/><column index="6" value="106"/><column index="7" value="195"/><column index="8" value="79"/><column index="9" value="41"/><column index="10" value="179"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table></browse_table_settings></tab_browse><tab_sql><sql name="SQL 1*">-- Estructura y datos para la Base de Datos AssistU en SQLite
+-- Encargad@ de la creacion de la Base de Datos: Samaria &amp; Kevin
+-- Nombre de la Base de Datos: assistu_db
+
+-- Elimina las tablas si existen
+DROP TABLE IF EXISTS Inscripciones;
+DROP TABLE IF EXISTS Recursamientos;
+DROP TABLE IF EXISTS Alumnos;
+DROP TABLE IF EXISTS Usuarios;
+DROP TABLE IF EXISTS Tipo_usuario;
+
+CREATE TABLE Tipo_usuario (
+    id_tipo_usuario INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    tipo_usuario TEXT NOT NULL,
+    cargo TEXT NOT NULL
+);
+
+CREATE TABLE Usuarios (
+    id_usuario INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    matricula_usuario TEXT UNIQUE NOT NULL,
+    contrasenia TEXT NOT NULL,
+    nombre TEXT NOT NULL,
+    apellido_paterno TEXT NOT NULL,
+    apellido_materno TEXT NOT NULL,
+    correo TEXT NOT NULL,
+    id_tipo_usuario INTEGER,
+    FOREIGN KEY (id_tipo_usuario) REFERENCES Tipo_usuario(id_tipo_usuario)
+);
+
+CREATE TABLE Alumnos (
+    id_alumno INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    matricula_alumno TEXT UNIQUE NOT NULL,
+    contrasenia TEXT NOT NULL,
+    nombre TEXT NOT NULL,
+    apellido_paterno TEXT NOT NULL,
+    apellido_materno TEXT NOT NULL,
+    correo TEXT NOT NULL,
+    cuatrimestre INTEGER NOT NULL,
+    grupo TEXT NOT NULL,
+    carrera TEXT NOT NULL
+);
+
+CREATE TABLE Recursamientos (
+    id_recursamiento INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    materia TEXT NOT NULL,
+    grupo TEXT NOT NULL,
+    horario TEXT NOT NULL,
+    matricula_usuario TEXT NOT NULL,
+    FOREIGN KEY (matricula_usuario) REFERENCES Usuarios(matricula_usuario)
+);
+
+CREATE TABLE Inscripciones (
+    matricula_alumno TEXT NOT NULL,
+    id_recursamiento INTEGER NOT NULL,
+    fecha DATE NOT NULL,
+    calificacion REAL NOT NULL,
+    estado TEXT NOT NULL,
+    PRIMARY KEY (matricula_alumno, id_recursamiento),
+    FOREIGN KEY (matricula_alumno) REFERENCES Alumnos(matricula_alumno),
+    FOREIGN KEY (id_recursamiento) REFERENCES Recursamientos(id_recursamiento)
+);
+
+INSERT INTO Tipo_usuario (tipo_usuario, cargo) VALUES
+('Alumno', 'Estudiante'),
+('Docente', 'Profesor'),
+('Administrador', 'Personal administrativo');
+
+INSERT INTO Usuarios (matricula_usuario, contrasenia, nombre, apellido_paterno, apellido_materno, correo, id_tipo_usuario) VALUES
+('JOSOUBUHAY', 'MINA78', 'Samuel', 'Arroyo', 'Soto', 'JOSOUBUHAY@upemor.edu.mx', 2),
+('MDSO245577', 'RANIt@', 'Sebastián', 'Soto', 'Méndez', 'MDSO245577@upemor.edu.mx', 2),
+('HDMIAL0970', 'Aldo90', 'Áxel', 'Ortiz', 'Domínguez', 'HDMIAL0970@upemor.edu.mx', 3),
+('VRT749O20', 'axel567', 'Sofía', 'Pérez', 'Antolli', 'VRT749O20@upemor.edu.mx', 3);
+
+INSERT INTO Alumnos (matricula_alumno, contrasenia, nombre, apellido_paterno, apellido_materno, correo, cuatrimestre, grupo, carrera) VALUES
+('CMSO240614', 'SAM123', 'Samaria', 'Cervantes', 'Martinez', 'cmso240614@upemor.edu.mx', 3, '3C', 'Ingeniería en Software'),
+('MJJO240217', 'Jose4567', 'José', 'Martinez', 'Jacobo', 'MJJO240217@upemor.edu.mx', 6, '6B', 'Ingeniería Industrial'),
+('DVKO240202', 'Kevin5677', 'Kevin', 'Diaz', 'Vega', 'DVKO240202@upemor.edu.mx', 9, '2D', 'Ingeniería en sistemas');
+
+INSERT INTO Recursamientos (materia, grupo, horario, matricula_usuario) VALUES
+('Cálculo Integral', '3C', '08:00-10:00', 'JOSOUBUHAY'),
+('POO', '6B', '10:00-12:00', 'MDSO245577'),
+('POO', '2D', '11:00-13:00', 'MDSO245577');
+
+INSERT INTO Inscripciones (matricula_alumno, id_recursamiento, fecha, calificacion, estado) VALUES
+('CMSO240614', 1, '2025-07-10', 8.5, 'aprobado'),
+('MJJO240217', 2, '2025-07-10', 7.0, 'aprobado'),
+('DVKO240202', 3, '2025-07-11', 5.0, 'reprobado');</sql><current_tab id="0"/></tab_sql></sqlb_project>

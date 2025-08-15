@@ -99,8 +99,8 @@ public class FramePrincipal extends FrameUtilities {
                 // 2. Si no existe como Usuario, intentar como Alumno
                 ControladorAlumno controladorAlumno = new ControladorAlumno();
                 Alumno alumno = controladorAlumno.login(matricula, contrasenia);
-
                 if (alumno != null) {
+                    System.out.println("Alumno login: " + alumno.getMatricula() + " " + alumno.getNombre());
                     new FrameAlumno(alumno);
                     this.dispose();
                     return;

@@ -3,20 +3,21 @@
 -- Nombre de la Base de Datos: assistu_db
 
 -- Elimina las tablas si existen
-DROP TABLE IF EXISTS Tipo_usuario;
-DROP TABLE IF EXISTS Usuarios;
-DROP TABLE IF EXISTS Alumnos;
-DROP TABLE IF EXISTS Recursamientos;
 DROP TABLE IF EXISTS Inscripciones;
+DROP TABLE IF EXISTS Recursamientos;
+DROP TABLE IF EXISTS Alumnos;
+DROP TABLE IF EXISTS Usuarios;
+DROP TABLE IF EXISTS Tipo_usuario;
 
 CREATE TABLE Tipo_usuario (
-    id_tipo_usuario INTEGER PRIMARY KEY NOT NULL,
+    id_tipo_usuario INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
     tipo_usuario TEXT NOT NULL,
     cargo TEXT NOT NULL
 );
 
 CREATE TABLE Usuarios (
-    matricula_usuario TEXT PRIMARY KEY NOT NULL,
+    id_usuario INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    matricula_usuario TEXT UNIQUE NOT NULL,
     contrasenia TEXT NOT NULL,
     nombre TEXT NOT NULL,
     apellido_paterno TEXT NOT NULL,
@@ -27,7 +28,8 @@ CREATE TABLE Usuarios (
 );
 
 CREATE TABLE Alumnos (
-    matricula_alumno TEXT PRIMARY KEY NOT NULL,
+    id_alumno INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    matricula_alumno TEXT UNIQUE NOT NULL,
     contrasenia TEXT NOT NULL,
     nombre TEXT NOT NULL,
     apellido_paterno TEXT NOT NULL,
@@ -39,7 +41,7 @@ CREATE TABLE Alumnos (
 );
 
 CREATE TABLE Recursamientos (
-    id_recursamiento INTEGER PRIMARY KEY NOT NULL,
+    id_recursamiento INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
     materia TEXT NOT NULL,
     grupo TEXT NOT NULL,
     horario TEXT NOT NULL,
@@ -58,10 +60,10 @@ CREATE TABLE Inscripciones (
     FOREIGN KEY (id_recursamiento) REFERENCES Recursamientos(id_recursamiento)
 );
 
-INSERT INTO Tipo_usuario (id_tipo_usuario, tipo_usuario, cargo) VALUES
-(1, 'Alumno', 'Estudiante'),
-(2, 'Docente', 'Profesor'),
-(3, 'Administrador', 'Personal administrativo');
+INSERT INTO Tipo_usuario (tipo_usuario, cargo) VALUES
+('Alumno', 'Estudiante'),
+('Docente', 'Profesor'),
+('Administrador', 'Personal administrativo');
 
 INSERT INTO Usuarios (matricula_usuario, contrasenia, nombre, apellido_paterno, apellido_materno, correo, id_tipo_usuario) VALUES
 ('JOSOUBUHAY', 'MINA78', 'Samuel', 'Arroyo', 'Soto', 'JOSOUBUHAY@upemor.edu.mx', 2),
@@ -74,12 +76,12 @@ INSERT INTO Alumnos (matricula_alumno, contrasenia, nombre, apellido_paterno, ap
 ('MJJO240217', 'Jose4567', 'José', 'Martinez', 'Jacobo', 'MJJO240217@upemor.edu.mx', 6, '6B', 'Ingeniería Industrial'),
 ('DVKO240202', 'Kevin5677', 'Kevin', 'Diaz', 'Vega', 'DVKO240202@upemor.edu.mx', 9, '2D', 'Ingeniería en sistemas');
 
-INSERT INTO Recursamientos (id_recursamiento, materia, grupo, horario, matricula_usuario) VALUES
-(11, 'Cálculo Integral', '3C', '08:00-10:00', 'JOSOUBUHAY'),
-(12, 'POO', '6B', '10:00-12:00', 'MDSO245577'),
-(13, 'POO', '2D', '11:00-13:00', 'MDSO245577');
+INSERT INTO Recursamientos (materia, grupo, horario, matricula_usuario) VALUES
+('Cálculo Integral', '3C', '08:00-10:00', 'JOSOUBUHAY'),
+('POO', '6B', '10:00-12:00', 'MDSO245577'),
+('POO', '2D', '11:00-13:00', 'MDSO245577');
 
 INSERT INTO Inscripciones (matricula_alumno, id_recursamiento, fecha, calificacion, estado) VALUES
-('CMSO240614', 11, '2025-07-10', 8.5, 'aprobado'),
-('MJJO240217', 12, '2025-07-10', 7.0, 'aprobado'),
-('DVKO240202', 13, '2025-07-11', 5.0, 'reprobado');
+('CMSO240614', 1, '2025-07-10', 8.5, 'aprobado'),
+('MJJO240217', 2, '2025-07-10', 7.0, 'aprobado'),
+('DVKO240202', 3, '2025-07-11', 5.0, 'reprobado');

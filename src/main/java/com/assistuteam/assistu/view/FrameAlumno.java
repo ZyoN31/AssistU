@@ -40,8 +40,13 @@ public class FrameAlumno extends FramePanelBase {
 
     public FrameAlumno(Alumno alumno) {
         this.alumno = alumno;
+        initComponents();
+    }
+
+    private void initComponents() {
         setTitle("AssistU - Alumno " + alumno.getNombre());
         configurarAcciones();
+        actualizarDatos();
         setVisible(true);
     }
 
@@ -56,6 +61,11 @@ public class FrameAlumno extends FramePanelBase {
 
     @Override
     protected String getUserMatricula() { return alumno != null ? alumno.getMatricula() : "Sin Matrícula"; }
+
+    private void actualizarDatos() {
+        labelNombreUsuario.setText(getUserName());
+        labelMatriculaUsuario.setText(getUserMatricula());
+    }
 
     @Override
     protected JButton[] getSideButtons() {

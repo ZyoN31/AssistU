@@ -40,7 +40,7 @@ public class ControladorAlumno extends Controlador<RepositorioAlumno, Alumno> {
     public Alumno login(String matricula, String contrasenia) throws Exception {
         return repositorio.leerTodos()
             .stream()
-            .filter(a -> a.getMatricula().equalsIgnoreCase(matricula)
+            .filter(a -> a.getMatricula().equalsIgnoreCase(matricula.toUpperCase())
                       && a.getContrasenia().equals(contrasenia))
             .findFirst()
             .orElse(null);
