@@ -25,7 +25,7 @@ AssistU es una aplicación de escritorio desarrollada en Java que automatiza y o
 
 ## Tecnologías
  - **Java SE 26**
- - **Swing** para GUI con **FlatLaf 3.6** (temas modernos)
+ - **Swing** para GUI con **FlatLaf 3.6**
  - SQLite / MariaDB
  - Maven
  - **Lombok** para reducción de boilerplate
@@ -35,7 +35,7 @@ AssistU es una aplicación de escritorio desarrollada en Java que automatiza y o
 Tener instalado:
 - **Java Development Kit (JDK) 26** o superior
 - **Maven 3.6+** o superior
-- **Git** (para clonar el repositorio)
+- **Git**
 
 Verificar las versiones instaladas:
 ```bash
