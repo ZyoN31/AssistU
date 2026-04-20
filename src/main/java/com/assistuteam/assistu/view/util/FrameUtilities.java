@@ -1,3 +1,5 @@
+// Este codigo se desarrollo con la intencion de ser una clase base para los JFrame de la aplicacion,
+// con metodos reutilizables para crear componentes y paneles con estilos consistentes
 package com.assistuteam.assistu.view.util;
 
 import java.awt.AlphaComposite;
@@ -302,14 +304,17 @@ public abstract class FrameUtilities extends JFrame{
         return label;
     }
 
+    /**
+     * Limpia los campos de texto de los formularios
+     */
     public void limpiarFields() {
-        txFlMatricula.setText("");
-        txFlContrasenia.setText("");
-        txFlContraseniaVisible.setText("");
-        txFlNombre.setText("");
-        txFlApellidoP.setText("");
-        txFlApellidoM.setText("");
-        txFlCorreo.setText("");
+        if (txFlMatricula != null) txFlMatricula.setText("");
+        if (txFlContrasenia != null) txFlContrasenia.setText("");
+        if (txFlContraseniaVisible != null) txFlContraseniaVisible.setText("");
+        if (txFlNombre != null) txFlNombre.setText("");
+        if (txFlApellidoP != null) txFlApellidoP.setText("");
+        if (txFlApellidoM != null) txFlApellidoM.setText("");
+        if (txFlCorreo != null) txFlCorreo.setText("");
     }
 
     /**

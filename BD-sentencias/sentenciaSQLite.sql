@@ -2,7 +2,6 @@
 -- Encargad@ de la creacion de la Base de Datos: Samaria & Kevin
 -- Nombre de la Base de Datos: assistu_db
 
--- Elimina las tablas si existen
 DROP TABLE IF EXISTS Inscripciones;
 DROP TABLE IF EXISTS Recursamientos;
 DROP TABLE IF EXISTS Alumnos;
@@ -70,6 +69,7 @@ INSERT INTO Usuarios (matricula_usuario, contrasenia, nombre, apellido_paterno, 
 ('MDSO245577', 'RANIt@', 'Sebastián', 'Soto', 'Méndez', 'MDSO245577@upemor.edu.mx', 2),
 ('HDMIAL0970', 'Aldo90', 'Áxel', 'Ortiz', 'Domínguez', 'HDMIAL0970@upemor.edu.mx', 3),
 ('VRT749O20', 'axel567', 'Sofía', 'Pérez', 'Antolli', 'VRT749O20@upemor.edu.mx', 3);
+()
 
 INSERT INTO Alumnos (matricula_alumno, contrasenia, nombre, apellido_paterno, apellido_materno, correo, cuatrimestre, grupo, carrera) VALUES
 ('CMSO240614', 'SAM123', 'Samaria', 'Cervantes', 'Martinez', 'cmso240614@upemor.edu.mx', 3, '3C', 'Ingeniería en Software'),

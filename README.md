@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="src/main/java/com/assistuteam/assistu/resources/images/assistu_banner_02.png" alt="Banner de AssistU" width="100%">
+  <img src="src/main/java/com/assistuteam/assistu/resources/images/assistu_banner2_01.png" alt="Banner de AssistU" width="100%">
 </p>
 
 **Sistema de Gestión de Recursamientos**  
@@ -24,18 +24,23 @@ AssistU es una aplicación de escritorio desarrollada en Java que automatiza y o
 ---
 
 ## Tecnologías
- - **Java SE 26**
+ - **Java SE 23/26**
  - **Swing** para GUI con **FlatLaf 3.6**
- - SQLite / MariaDB
- - Maven
+ - **SQLite** / **MariaDB**
+ - **Maven**
  - **Lombok** para reducción de boilerplate
  - **New Relic** para monitoreo
 
 ## Requisitos previos
 Tener instalado:
-- **Java Development Kit (JDK) 26** o superior
+- **Java Development Kit (JDK) 23** o superior
+   - [*JDK de Oracle*](https://www.oracle.com/latam/java/technologies/downloads/) o [*OpenJDK de Eclipse Temurin*](https://adoptium.net/es)
 - **Maven 3.6+** o superior
-- **Git**
+   - [*Apache Maven*](https://maven.apache.org/download.cgi)
+- [**Git**](https://git-scm.com/install/windows)
+- **Editor de codigo**
+   - [*Apache Netbeans*](https://netbeans.apache.org/front/main/download/) o [*Visual Studio Code*](https://code.visualstudio.com/)
+      - ***Al usar VSCode, este se debe configurar para que pueda ejecutar JAVA***
 
 Verificar las versiones instaladas:
 ```bash

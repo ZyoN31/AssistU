@@ -6,9 +6,8 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.GridBagConstraints;
+import java.awt.GridLayout;
 import java.awt.GridBagLayout;
-import java.awt.Insets;
 import java.awt.RenderingHints;
 
 import javax.swing.BorderFactory;
@@ -31,6 +30,7 @@ public class FrameAdministrador extends FramePanelBase {
 
     public FrameAdministrador(Usuario usuario) {
         this.usuario = usuario;
+        initPanelBase();
         setTitle("AssistU - Administrador " + usuario.getNombre());
 
         try {
@@ -69,9 +69,9 @@ public class FrameAdministrador extends FramePanelBase {
     @Override
     protected JButton[] getSideButtons() {
         botones = new JButton[5];
-        botones[0] = setButton("Asignaciones", 18, 350, 40);
-        botones[1] = setButton("Solicitudes de recursamiento", 18, 350, 40);
-        botones[2] = setButton("Grupos de recursamiento", 18, 350, 40);
+        botones[0] = setButton("Registrar usuario", 18, 350, 40);
+        botones[1] = setButton("Asignacion de Recursamiento", 18, 350, 40);
+        botones[2] = setButton("Solicitudes de recursamiento", 18, 350, 40);
         botones[3] = setButton("Bandeja", 18, 350, 40);
         botones[4] = setButton("Abandonar Sesión", 18, 350, 40);
         return botones;
@@ -79,8 +79,8 @@ public class FrameAdministrador extends FramePanelBase {
 
     private void configurarAcciones() {
         botones[0].addActionListener(e -> mostrarAsignaciones());
-        botones[1].addActionListener(e -> mostrarSolicitudes());
-        botones[2].addActionListener(e -> mostrarGruposRecursamiento());
+        botones[1].addActionListener(e -> mostrarGruposRecursamiento());
+        botones[2].addActionListener(e -> mostrarSolicitudes());
         botones[3].addActionListener(e -> mostrarBandeja());
         botones[4].addActionListener(e -> {
             this.dispose();
@@ -333,110 +333,147 @@ public class FrameAdministrador extends FramePanelBase {
         JPanel mainPanel = new JPanel();
         mainPanel.setOpaque(false);
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+        mainPanel.setPreferredSize(new Dimension(820, 640));
 
-        JPanel panelCantidad = new JPanel(new GridBagLayout());
-        panelCantidad.setOpaque(false);
-        panelCantidad.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-
-        try {
-            // int numeroDeAdministradores = controladorAdministrador.leerTodos().size(); // Real
-            panelCantidad.add(crearTarjetaCantidad("Número de grupos:", "5"), setGridsAttributes(0, 0, 1, 1, false, 5, 5, 0, 0));
-            panelCantidad.add(crearTarjetaCantidad("Número de maestros disponibles:", "15"), setGridsAttributes(1, 0, 1, 1, false, 5, 5, 0, 0));
-            panelCantidad.add(crearTarjetaCantidad("Números de solicitudes:", "3"), setGridsAttributes(0, 1, 1, 1, false, 5, 5, 0, 0));
-            panelCantidad.add(crearTarjetaCantidad("Número de alumnos:", "120"), setGridsAttributes(1, 1, 1, 1, false, 5, 5, 0, 0));
-            panelCantidad.add(crearTarjetaCantidad("Número de materias de recursamiento:", "4"), setGridsAttributes(0, 2, 1, 1, false, 5, 5, 0, 0));
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error al obtener datos: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
-
-        mainPanel.add(panelCantidad);
-        mainPanel.add(Box.createRigidArea(new Dimension(0, 20)));
-
-        mainPanel.add(crearTarjetaAsignacion("Sebastian Sosa", "POO", "B", "Lunes", "10:00-14:00", 1));
-        mainPanel.add(crearTarjetaAsignacion("Samuel Arroyo", "Calculo Integral", "3C", "Martes", "08:00-10:00", 2));
+        mainPanel.add(crearPanelCantidad());
+        mainPanel.add(Box.createRigidArea(new Dimension(0, 22)));
+        mainPanel.add(crearPanelAsignacion());
 
         return mainPanel;
     }
 
-    private JPanel crearTarjetaCantidad(String titulo, String valor) {
-        JPanel tarjeta = new JPanel() {
+    private JPanel crearPanelCantidad() {
+        JPanel panelCantidad = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
                 Graphics2D g2 = (Graphics2D) g;
                 g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                g2.setColor(new Color(19, 22, 34, 230));
-                g2.fillRoundRect(0, 0, getWidth(), getHeight(), 24, 24);
+                g2.setColor(new Color(45, 52, 122, 230));
+                g2.fillRoundRect(0, 0, getWidth(), getHeight(), 20, 20);
             }
         };
-        tarjeta.setOpaque(false);
-        tarjeta.setLayout(new BorderLayout());
-        tarjeta.setPreferredSize(new Dimension(250, 70));
-        tarjeta.setBorder(BorderFactory.createEmptyBorder(10, 15, 10, 15));
+        panelCantidad.setOpaque(false);
+        panelCantidad.setLayout(new BorderLayout());
+        panelCantidad.setPreferredSize(new Dimension(820, 195));
+        panelCantidad.setMaximumSize(new Dimension(820, 195));
+        panelCantidad.setBorder(BorderFactory.createEmptyBorder(10, 16, 10, 16));
 
-        JLabel lblTitulo = setLabel(titulo, 16, 3, 'L');
-        lblTitulo.setForeground(UIManager.getColor("keuni.color"));
-        tarjeta.add(lblTitulo, BorderLayout.NORTH);
+        JLabel titulo = setLabel("Cantidad", 33, 1, 'L');
+        titulo.setForeground(UIManager.getColor("bankya.color"));
+        panelCantidad.add(titulo, BorderLayout.NORTH);
 
-        JLabel lblValor = setLabel(valor, 24, 1, 'L');
-        lblValor.setForeground(UIManager.getColor("bankya.color"));
-        tarjeta.add(lblValor, BorderLayout.SOUTH);
+        JPanel grid = new JPanel(new GridLayout(3, 2, 12, 12));
+        grid.setOpaque(false);
+        grid.setBorder(BorderFactory.createEmptyBorder(8, 0, 0, 0));
 
-        return tarjeta;
+        grid.add(crearMetrica("Numero de grupos:", "5"));
+        grid.add(crearMetrica("Numero de maestros disponibles", "15"));
+        grid.add(crearMetrica("Numeros de solicitudes:", "3"));
+        grid.add(crearMetrica("Numero de alumnos:", "120"));
+        grid.add(crearMetrica("Numero de materias de recursamiento:", "4"));
+        grid.add(crearMetrica("", ""));
+
+        panelCantidad.add(grid, BorderLayout.CENTER);
+        return panelCantidad;
     }
 
-    private JPanel crearTarjetaAsignacion(String maestro, String materia, String grupo, String dia, String hora, int colorType) {
-        JPanel tarjeta = new JPanel();
-        tarjeta.setOpaque(false);
-        tarjeta.setLayout(new BorderLayout());
-        tarjeta.setMaximumSize(new Dimension(700, 90));
-        tarjeta.setPreferredSize(new Dimension(700, 90));
-        tarjeta.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
+    private JPanel crearMetrica(String titulo, String valor) {
+        JPanel contenedor = new JPanel(new BorderLayout(10, 0));
+        contenedor.setOpaque(false);
 
-        JPanel colorBar = new JPanel();
-        colorBar.setPreferredSize(new Dimension(16, 90));
-        colorBar.setOpaque(true);
-        switch (colorType) {
-            case 1 -> colorBar.setBackground(new Color(37, 87, 66));
-            case 2 -> colorBar.setBackground(new Color(110, 23, 44));
-            case 3 -> colorBar.setBackground(new Color(110, 105, 77));
-            default -> colorBar.setBackground(Color.GRAY);
-        }
+        JPanel etiqueta = new JPanel(new BorderLayout());
+        etiqueta.setOpaque(true);
+        etiqueta.setBackground(new Color(25, 33, 96, 220));
+        etiqueta.setBorder(BorderFactory.createEmptyBorder(6, 12, 6, 12));
+        JLabel lblTitulo = setLabel(titulo, 17, 3, 'L');
+        lblTitulo.setForeground(UIManager.getColor("bankya.color"));
+        etiqueta.add(lblTitulo, BorderLayout.CENTER);
 
-        JPanel contenido = new JPanel() {
+        JPanel valorPanel = new JPanel(new BorderLayout());
+        valorPanel.setOpaque(true);
+        valorPanel.setBackground(new Color(55, 62, 126, 220));
+        valorPanel.setBorder(BorderFactory.createEmptyBorder(6, 10, 6, 10));
+        JLabel lblValor = setLabel(valor, 24, 1, 'C');
+        lblValor.setForeground(UIManager.getColor("bankya.color"));
+        valorPanel.add(lblValor, BorderLayout.CENTER);
+        valorPanel.setPreferredSize(new Dimension(95, 32));
+
+        contenedor.add(etiqueta, BorderLayout.CENTER);
+        contenedor.add(valorPanel, BorderLayout.EAST);
+        return contenedor;
+    }
+
+    private JPanel crearPanelAsignacion() {
+        JPanel panel = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
                 Graphics2D g2 = (Graphics2D) g;
                 g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                g2.setColor(new Color(19, 22, 34, 230));
-                g2.fillRoundRect(0, 0, getWidth(), getHeight(), 24, 24);
+                g2.setColor(new Color(45, 52, 122, 230));
+                g2.fillRoundRect(0, 0, getWidth(), getHeight(), 20, 20);
             }
         };
+        panel.setOpaque(false);
+        panel.setLayout(new BorderLayout());
+        panel.setPreferredSize(new Dimension(820, 380));
+        panel.setMaximumSize(new Dimension(820, 380));
+        panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 12, 10));
+
+        JLabel titulo = setLabel("Asignacion", 31, 1, 'L');
+        titulo.setForeground(UIManager.getColor("bankya.color"));
+        panel.add(titulo, BorderLayout.NORTH);
+
+        JPanel contenido = new JPanel(new GridBagLayout());
         contenido.setOpaque(false);
-        contenido.setLayout(new GridBagLayout());
+        contenido.setBorder(BorderFactory.createEmptyBorder(8, 0, 8, 0));
 
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridx = 0; gbc.gridy = 0; gbc.anchor = GridBagConstraints.WEST;
-        gbc.insets = new Insets(8, 20, 0, 10);
+        String[] columnas = {"Maestro", "Materia", "Grupo", "Dia", "Hora"};
+        for (int i = 0; i < columnas.length; i++) {
+            JPanel chip = new JPanel(new BorderLayout());
+            chip.setBackground(new Color(25, 33, 96, 220));
+            chip.setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
+            JLabel txt = setLabel(columnas[i], 20, 1, 'C');
+            txt.setForeground(UIManager.getColor("bankya.color"));
+            chip.add(txt, BorderLayout.CENTER);
+            contenido.add(chip, setGridsAttributes(i, 0, 1, 1, true, 5, 0, 8, 8));
+        }
 
-        JLabel lblMaestro = setLabel(maestro, 18, 1, 'L');
-        contenido.add(lblMaestro, gbc);
+        String[][] rows = {
+            {"Sebastian\nSosa", "POO", "B", "Lunes", "10:00 am - 14:00 pm"},
+            {"------", "------", "------", "------", "------"}
+        };
 
-        gbc.gridy++;
-        gbc.insets = new Insets(5, 20, 10, 10);
-        JLabel lblMateriaGrupo = setLabel(materia + " - Grupo " + grupo, 16, 3, 'L');
-        contenido.add(lblMateriaGrupo, gbc);
+        for (int r = 0; r < rows.length; r++) {
+            for (int c = 0; c < rows[r].length; c++) {
+                JLabel celda = setLabel("<html>" + rows[r][c].replace("\n", "<br>") + "</html>", 18, 3, 'C');
+                celda.setForeground(UIManager.getColor("bankya.color"));
+                JPanel celdaPanel = new JPanel(new BorderLayout());
+                celdaPanel.setOpaque(false);
+                celdaPanel.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, new Color(180, 187, 235, 160)));
+                celdaPanel.add(celda, BorderLayout.CENTER);
+                contenido.add(celdaPanel, setGridsAttributes(c, r + 1, 1, 1, true, 8, 8, 8, 8));
+            }
+        }
 
-        gbc.gridx = 1; gbc.gridy = 0; gbc.gridheight = 2;
-        gbc.anchor = GridBagConstraints.EAST;
-        gbc.insets = new Insets(8, 40, 8, 30);
-        JLabel lblHorario = setLabel(dia + " " + hora, 16, 2, 'L');
-        contenido.add(lblHorario, gbc);
+        JPanel acciones = new JPanel();
+        acciones.setOpaque(false);
+        acciones.setLayout(new BoxLayout(acciones, BoxLayout.Y_AXIS));
+        JLabel lblAdd = setLabel("+  Anadir asignacion", 22, 3, 'L');
+        lblAdd.setForeground(UIManager.getColor("bankya.color"));
+        JLabel lblSave = setLabel("S", 26, 1, 'L');
+        lblSave.setForeground(UIManager.getColor("bankya.color"));
+        acciones.add(lblAdd);
+        acciones.add(Box.createRigidArea(new Dimension(0, 10)));
+        acciones.add(lblSave);
 
-        tarjeta.add(colorBar, BorderLayout.WEST);
-        tarjeta.add(contenido, BorderLayout.CENTER);
+        JPanel body = new JPanel(new BorderLayout());
+        body.setOpaque(false);
+        body.add(contenido, BorderLayout.CENTER);
+        body.add(acciones, BorderLayout.SOUTH);
 
-        return tarjeta;
+        panel.add(body, BorderLayout.CENTER);
+        return panel;
     }
 }

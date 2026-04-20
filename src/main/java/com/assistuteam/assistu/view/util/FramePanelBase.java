@@ -1,7 +1,11 @@
+// Este codigo se desarrollo con la intencion de ser una clase base para los JFrame de la aplicacion,
+// con metodos reutilizables para crear frames con estilos consistentes y paneles internos predefinidos para cada dashboard (estudiante, docente, admin).
 package com.assistuteam.assistu.view.util;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -13,6 +17,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.UIManager;
 
 /** @author assistu_team **/
 
@@ -36,11 +41,11 @@ public abstract class FramePanelBase extends FrameUtilities {
     protected abstract JPanel buildCardsPanel();
 
     public FramePanelBase(){
-        init();
+        super();
     }
 
-    private void init(){
-        setTitle("AssistU - Panel Base");
+    protected void initPanelBase(){
+        setTitle("AssistU - " + getDashboardTitle());
         setSize(defaultWidth, defaultHeight);
         setMinimumSize(new Dimension(1280, 720));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -58,77 +63,101 @@ public abstract class FramePanelBase extends FrameUtilities {
     }
 
     private void crearPanelesInternos(){
-        // Panel lateral izquierdo (estático, SIN padding ni borde)
-        panelInterno01 = crearPanelEstatico(370, 3, 2, 0, 0.98f); // padding = 0
+        // Panel lateral izquierdo
+        panelInterno01 = crearPanelEstatico(420, 3, 2, 0, 0.98f);
         panelInterno01.setLayout(new GridBagLayout());
-        panelInterno01.setPreferredSize(new Dimension(500, getHeight()));
-        panelInterno01.setOpaque(false); // <-- Añade esto para evitar fondo extra
+        panelInterno01.setPreferredSize(new Dimension(420, getHeight()));
+        panelInterno01.setOpaque(false);
 
-        // Logo grande arriba
+        // Marca principal
         labelLogo = setImageLabel("/com/assistuteam/assistu/resources/images/assistu_logo.png", 110, 80);
-        panelInterno01.add(labelLogo, setGridsAttributes(0, 0, 5, 1, false, 0, 30, 0, 0));
+        panelInterno01.add(labelLogo, setGridsAttributes(0, 0, 1, 1, false, 0, 35, 20, 10));
 
-        // Título "AssistU"
+        // Titulo principal
         labelTitulo = setLabel("AssistU", 48, 1, 'L');
-        panelInterno01.add(labelTitulo, setGridsAttributes(0, 1, 5, 1, false, 0, 10, 0, 0));
+        panelInterno01.add(labelTitulo, setGridsAttributes(1, 0, 1, 1, false, 0, 35, 0, 20));
 
-        // Rol (Alumno, Docente, etc)
+        // Rol
         labelTexto01 = setLabel(getUserRole(), 22, 3, 'L');
-        panelInterno01.add(labelTexto01, setGridsAttributes(0, 2, 5, 1, false, 0, 0, 0, 0));
+        panelInterno01.add(labelTexto01, setGridsAttributes(0, 1, 2, 1, false, 0, 8, 20, 20));
 
-        // Nombre grande (NO reutilices labelTitulo)
+        JPanel panelUsuario = new JPanel(new GridBagLayout()) {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2 = (Graphics2D) g.create();
+                g2.setColor(new java.awt.Color(31, 37, 97, 215));
+                g2.fillRoundRect(0, 0, getWidth(), getHeight(), 26, 26);
+                g2.dispose();
+            }
+        };
+        panelUsuario.setOpaque(false);
+        panelUsuario.setPreferredSize(new Dimension(360, 92));
+
         labelNombreUsuario = setLabel(getUserName(), 36, 1, 'L');
-        panelInterno01.add(labelNombreUsuario, setGridsAttributes(0, 3, 5, 1, false, 0, 0, 0, 0));
+        labelNombreUsuario.setForeground(UIManager.getColor("bankya.color"));
+        labelMatriculaUsuario = setLabel(getUserMatricula(), 20, 3, 'L');
+        labelMatriculaUsuario.setForeground(UIManager.getColor("bankya.color"));
 
-        // Matrícula (más pequeño)
-        labelMatriculaUsuario = setLabel(getUserMatricula(), 18, 3, 'L');
-        panelInterno01.add(labelMatriculaUsuario, setGridsAttributes(0, 4, 5, 1, false, 0, 20, 0, 0));
+        panelUsuario.add(labelNombreUsuario, setGridsAttributes(0, 0, 1, 1, true, 0, 10, 18, 12));
+        panelUsuario.add(labelMatriculaUsuario, setGridsAttributes(0, 1, 1, 1, true, 6, 0, 18, 12));
+        panelInterno01.add(panelUsuario, setGridsAttributes(0, 2, 2, 1, true, 0, 0, 15, 15));
 
-        // Botones laterales (espaciados verticalmente)
+        // Botones laterales
         botones = getSideButtons();
         for (int i = 0; i < botones.length; i++) {
-            botones[i].setPreferredSize(new Dimension(260, 38));
-            panelInterno01.add(botones[i], setGridsAttributes(0, 5 + i, 5, 1, false, 12, 12, 0, 0));
+            botones[i].setPreferredSize(new Dimension(330, 46));
+            panelInterno01.add(botones[i], setGridsAttributes(0, 3 + i, 2, 1, true, 10, 12, 20, 20));
         }
 
-        // Panel de tarjetas/materias a la derecha (estilo moderno, flotante)
+        JPanel spacerBottom = new JPanel();
+        spacerBottom.setOpaque(false);
+        GridBagConstraints gbcSpacer = setGridsAttributes(0, 3 + botones.length, 2, 1, true, 0, 0, 0, 0);
+        gbcSpacer.fill = GridBagConstraints.BOTH;
+        gbcSpacer.weighty = 1.0;
+        panelInterno01.add(spacerBottom, gbcSpacer);
+
+        // Panel principal derecho
         panelInterno02 = new JPanel(new GridBagLayout());
         panelInterno02.setOpaque(false);
 
         JPanel cardsPanel = buildCardsPanel();
         cardsPanel.setOpaque(false);
 
-        // Añade el panel de tarjetas centrado verticalmente
         GridBagConstraints gbcCards = new GridBagConstraints();
         gbcCards.gridx = 0;
         gbcCards.gridy = 0;
         gbcCards.insets = new Insets(0, 0, 0, 0);
         gbcCards.anchor = GridBagConstraints.CENTER;
+        gbcCards.fill = GridBagConstraints.NONE;
+        gbcCards.weightx = 1.0;
+        gbcCards.weighty = 1.0;
         panelInterno02.add(cardsPanel, gbcCards);
 
-        // Añadir ambos paneles al fondo, SIN insets y pegados
         GridBagConstraints gbcLeft = new GridBagConstraints();
         gbcLeft.gridx = 0;
         gbcLeft.gridy = 0;
-        gbcLeft.insets = new Insets(0, 0, 0, 0); // sin margen
+        gbcLeft.insets = new Insets(0, 0, 0, 0);
         gbcLeft.anchor = GridBagConstraints.NORTHWEST;
-        gbcLeft.fill = GridBagConstraints.BOTH; // <-- Cambia a BOTH para ocupar todo el alto
+        gbcLeft.fill = GridBagConstraints.BOTH;
         gbcLeft.weighty = 1.0;
         gbcLeft.weightx = 0.0;
 
         GridBagConstraints gbcRight = new GridBagConstraints();
         gbcRight.gridx = 1;
         gbcRight.gridy = 0;
-        gbcRight.insets = new Insets(0, 0, 0, 0); // sin padding
-        gbcRight.anchor = GridBagConstraints.CENTER;
+        gbcRight.insets = new Insets(0, 0, 0, 0);
+        gbcRight.anchor = GridBagConstraints.NORTHWEST;
+        gbcRight.fill = GridBagConstraints.BOTH;
+        gbcRight.weightx = 1.0;
+        gbcRight.weighty = 1.0;
 
         panelFondo.add(panelInterno01, gbcLeft);
         panelFondo.add(panelInterno02, gbcRight);
     }
 
     /**
-     * Panel reutilizable para selección de materia y horario.
-     * 
+     * Panel reutilizable para selección de materia y horario
      * @param materias           Arreglo de materias a mostrar
      * @param horariosPorMateria Mapa materia->arreglo de horarios
      * @param onSeleccionar      Acción al presionar el botón "Seleccionar"

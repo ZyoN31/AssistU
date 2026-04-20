@@ -6,9 +6,6 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
 import java.awt.RenderingHints;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,6 +41,7 @@ public class FrameAlumno extends FramePanelBase {
     }
 
     private void initComponents() {
+        initPanelBase();
         setTitle("AssistU - Alumno " + alumno.getNombre());
         configurarAcciones();
         actualizarDatos();
@@ -309,16 +307,17 @@ public class FrameAlumno extends FramePanelBase {
 
     @Override
     protected JPanel buildCardsPanel() {
-        // Puedes mantener las tarjetas de materias y el panel de selección aquí
         JPanel panel = new JPanel();
         panel.setOpaque(false);
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        // Ejemplo de tarjetas, puedes poblar con datos reales si lo deseas
-        panel.add(crearTarjetaAlumno("Programación Orientada a Objetos", "Profesor. Michael Doe", "10:00 am – 14:00 pm", 1));
-        panel.add(crearTarjetaAlumno("Cálculo Integral", "Profesor No Disponible", "No Disponible", 2));
+        panel.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        panel.add(crearTarjetaAlumno("Programación Orientada a Objetos", "Profesor. Michael Doe", "10:00 am - 14:00 pm", 1));
+        panel.add(Box.createRigidArea(new Dimension(0, 18)));
+        panel.add(crearTarjetaAlumno("Calculo Integral", "Profesor No Disponible", "No Disponible", 2));
+        panel.add(Box.createRigidArea(new Dimension(0, 18)));
         panel.add(crearTarjetaAlumno("Sin Materia", "", "", 3));
-        // Panel de selección de materia y horario
-        panel.add(panelSeleccionMateriaHorario());
+
         return panel;
     }
 
@@ -326,12 +325,12 @@ public class FrameAlumno extends FramePanelBase {
         JPanel tarjeta = new JPanel();
         tarjeta.setOpaque(false);
         tarjeta.setLayout(new BorderLayout());
-        tarjeta.setMaximumSize(new Dimension(700, 90));
-        tarjeta.setPreferredSize(new Dimension(700, 90));
-        tarjeta.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
+        tarjeta.setAlignmentX(Component.LEFT_ALIGNMENT);
+        tarjeta.setMaximumSize(new Dimension(760, 130));
+        tarjeta.setPreferredSize(new Dimension(760, 130));
 
         JPanel colorBar = new JPanel();
-        colorBar.setPreferredSize(new Dimension(16, 90));
+        colorBar.setPreferredSize(new Dimension(16, 130));
         colorBar.setOpaque(true);
         switch (colorType) {
             case 1 -> colorBar.setBackground(new Color(37, 87, 66));
@@ -346,45 +345,48 @@ public class FrameAlumno extends FramePanelBase {
                 super.paintComponent(g);
                 Graphics2D g2 = (Graphics2D) g;
                 g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                g2.setColor(new Color(19, 22, 34, 230));
+                g2.setColor(new Color(18, 24, 57, 230));
                 g2.fillRoundRect(0, 0, getWidth(), getHeight(), 24, 24);
             }
         };
         contenido.setOpaque(false);
-        contenido.setLayout(new GridBagLayout());
+        contenido.setLayout(new BorderLayout());
 
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridx = 0; gbc.gridy = 0; gbc.anchor = GridBagConstraints.WEST;
-        gbc.insets = new Insets(8, 20, 0, 10);
+        JPanel bloqueIzquierdo = new JPanel(new BorderLayout());
+        bloqueIzquierdo.setOpaque(false);
+        bloqueIzquierdo.setBorder(BorderFactory.createEmptyBorder(16, 20, 10, 14));
+        bloqueIzquierdo.setPreferredSize(new Dimension(390, 130));
 
-        JLabel lblTitulo = setLabel(titulo, 22, 1, 'L');
-        contenido.add(lblTitulo, gbc);
+        JLabel lblTitulo = setLabel(titulo, 30, 1, 'L');
+        lblTitulo.setForeground(UIManager.getColor("bankya.color"));
+        bloqueIzquierdo.add(lblTitulo, BorderLayout.CENTER);
 
-        gbc.gridy++;
-        gbc.insets = new Insets(5, 20, 10, 10);
-        JLabel lblProf = setLabel(profesor, 16, 3, 'L');
-        contenido.add(lblProf, gbc);
+        JPanel franjaProfesor = new JPanel(new BorderLayout());
+        franjaProfesor.setOpaque(true);
+        franjaProfesor.setBackground(new Color(33, 41, 103, 200));
+        franjaProfesor.setBorder(BorderFactory.createEmptyBorder(6, 14, 6, 8));
+        JLabel lblProf = setLabel(profesor.isBlank() ? " " : profesor, 16, 3, 'L');
+        lblProf.setForeground(UIManager.getColor("bankya.color"));
+        franjaProfesor.add(lblProf, BorderLayout.WEST);
+        bloqueIzquierdo.add(franjaProfesor, BorderLayout.SOUTH);
 
-        gbc.gridx = 1; gbc.gridy = 0; gbc.gridheight = 2;
-        gbc.anchor = GridBagConstraints.EAST;
-        gbc.insets = new Insets(8, 40, 8, 30);
-        String horarioTexto = (horario.isEmpty() ? "" : "Horario. " + horario);
-        JLabel lblHorario = setLabel(horarioTexto, 16, 2, 'L');
-        contenido.add(lblHorario, gbc);
+        JPanel bloqueDerecho = new JPanel(new BorderLayout());
+        bloqueDerecho.setOpaque(true);
+        bloqueDerecho.setBackground(new Color(14, 20, 57, 240));
+        bloqueDerecho.setBorder(BorderFactory.createEmptyBorder(16, 24, 16, 24));
+        bloqueDerecho.setPreferredSize(new Dimension(260, 130));
+
+        String horarioTexto = horario.isBlank() ? "Horario.<br>No Disponible" : "Horario.<br>" + horario;
+        JLabel lblHorario = setLabel("<html>" + horarioTexto + "</html>", 17, 2, 'L');
+        lblHorario.setForeground(UIManager.getColor("bankya.color"));
+        bloqueDerecho.add(lblHorario, BorderLayout.CENTER);
+
+        contenido.add(bloqueIzquierdo, BorderLayout.CENTER);
+        contenido.add(bloqueDerecho, BorderLayout.EAST);
 
         tarjeta.add(colorBar, BorderLayout.WEST);
         tarjeta.add(contenido, BorderLayout.CENTER);
 
         return tarjeta;
-    }
-
-    private JPanel panelSeleccionMateriaHorario() {
-        // Puedes reutilizar el método ya integrado en mostrarPanelSolicitarRecursamiento
-        JPanel panel = new JPanel();
-        panel.setOpaque(false);
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        // Puedes poblar con materias y horarios reales si lo necesitas
-        panel.add(new JLabel("Panel de selección de materia y horario (ver botón Solicitar Recursamiento)"));
-        return panel;
     }
 }

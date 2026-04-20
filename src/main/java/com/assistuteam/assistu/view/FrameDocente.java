@@ -7,13 +7,8 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
 import java.awt.RenderingHints;
 import java.util.List;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -25,9 +20,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 
-import com.assistuteam.assistu.model.entity.Usuario;
-import com.assistuteam.assistu.model.entity.Recursamiento;
 import com.assistuteam.assistu.controller.ControladorRecursamiento;
+import com.assistuteam.assistu.model.entity.Recursamiento;
+import com.assistuteam.assistu.model.entity.Usuario;
 import com.assistuteam.assistu.view.util.FramePanelBase;
 
 /** @author assistu_team **/
@@ -40,6 +35,7 @@ public class FrameDocente extends FramePanelBase {
     // Constructor que recibe Usuario
     public FrameDocente(Usuario usuario) {
         this.usuario = usuario;
+        initPanelBase();
         setTitle("AssistU - Docente " + usuario.getNombre());
         configurarAcciones();
         actualizarDatos();
@@ -339,6 +335,7 @@ public class FrameDocente extends FramePanelBase {
         JPanel panel = new JPanel();
         panel.setOpaque(false);
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         // Obtener materias y grupos asignados desde DAO
         try {
@@ -349,23 +346,62 @@ public class FrameDocente extends FramePanelBase {
                 .toList();
 
             if (asignados.isEmpty()) {
-                panel.add(setLabel("No tienes materias asignadas.", 20, 3, 'C'));
+                panel.add(crearTarjetaDocente(
+                    "Sin Materia Asignada",
+                    "Materia no disponible",
+                    "No Disponible",
+                    3
+                ));
+                panel.add(Box.createRigidArea(new Dimension(0, 18)));
+                panel.add(crearTarjetaDocente(
+                    "Calculo Integral",
+                    "Materia Disponible",
+                    "07:00 am - 11:00 am",
+                    2
+                ));
+                panel.add(Box.createRigidArea(new Dimension(0, 18)));
             } else {
+                int count = 0;
                 for (Recursamiento r : asignados) {
                     panel.add(crearTarjetaDocente(
                         r.getMateria(),
-                        "Grupo: " + r.getGrupo(),
+                        "Profesor. " + getUserName(),
                         r.getHorario(),
-                        1
+                        count == 0 ? 1 : 2
                     ));
+                    panel.add(Box.createRigidArea(new Dimension(0, 18)));
+                    count++;
+                    if (count == 2) break;
+                }
+
+                if (count == 1) {
+                    panel.add(crearTarjetaDocente(
+                        "Calculo Integral",
+                        "Materia Disponible",
+                        "07:00 am - 11:00 am",
+                        2
+                    ));
+                    panel.add(Box.createRigidArea(new Dimension(0, 18)));
                 }
             }
         } catch (Exception e) {
             panel.add(setLabel("Error al cargar materias: " + e.getMessage(), 16, 3, 'C'));
+            panel.add(Box.createRigidArea(new Dimension(0, 18)));
+            panel.add(crearTarjetaDocente(
+                "Calculo Integral",
+                "Materia Disponible",
+                "07:00 am - 11:00 am",
+                2
+            ));
+            panel.add(Box.createRigidArea(new Dimension(0, 18)));
         }
 
-        // Panel de selección de materia y horario para el docente (puedes adaptar la lógica)
-        panel.add(panelSeleccionMateriaHorario());
+        panel.add(crearTarjetaDocente(
+            "Seleccione materia",
+            "----------------",
+            "Horarios disponibles",
+            3
+        ));
 
         return panel;
     }
@@ -374,12 +410,12 @@ public class FrameDocente extends FramePanelBase {
         JPanel tarjeta = new JPanel();
         tarjeta.setOpaque(false);
         tarjeta.setLayout(new BorderLayout());
-        tarjeta.setMaximumSize(new Dimension(700, 90));
-        tarjeta.setPreferredSize(new Dimension(700, 90));
-        tarjeta.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
+        tarjeta.setAlignmentX(Component.LEFT_ALIGNMENT);
+        tarjeta.setMaximumSize(new Dimension(760, 130));
+        tarjeta.setPreferredSize(new Dimension(760, 130));
 
         JPanel colorBar = new JPanel();
-        colorBar.setPreferredSize(new Dimension(16, 90));
+        colorBar.setPreferredSize(new Dimension(16, 130));
         colorBar.setOpaque(true);
         switch (colorType) {
             case 1 -> colorBar.setBackground(UIManager.getColor("oftani.color"));
@@ -394,63 +430,48 @@ public class FrameDocente extends FramePanelBase {
                 super.paintComponent(g);
                 Graphics2D g2 = (Graphics2D) g;
                 g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                g2.setColor(new Color(19, 22, 34, 230));
+                g2.setColor(new Color(18, 24, 57, 230));
                 g2.fillRoundRect(0, 0, getWidth(), getHeight(), 24, 24);
             }
         };
         contenido.setOpaque(false);
-        contenido.setLayout(new GridBagLayout());
+        contenido.setLayout(new BorderLayout());
 
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridx = 0; gbc.gridy = 0; gbc.anchor = GridBagConstraints.WEST;
-        gbc.insets = new Insets(8, 20, 0, 10);
+        JPanel bloqueIzquierdo = new JPanel(new BorderLayout());
+        bloqueIzquierdo.setOpaque(false);
+        bloqueIzquierdo.setBorder(BorderFactory.createEmptyBorder(16, 20, 10, 14));
+        bloqueIzquierdo.setPreferredSize(new Dimension(390, 130));
 
-        JLabel lblTitulo = setLabel(titulo, 22, 1, 'L');
+        JLabel lblTitulo = setLabel(titulo, 30, 1, 'L');
         lblTitulo.setForeground(UIManager.getColor("bankya.color"));
-        contenido.add(lblTitulo, gbc);
+        bloqueIzquierdo.add(lblTitulo, BorderLayout.CENTER);
 
-        gbc.gridy++;
-        gbc.insets = new Insets(5, 20, 10, 10);
+        JPanel franjaDetalle = new JPanel(new BorderLayout());
+        franjaDetalle.setOpaque(true);
+        franjaDetalle.setBackground(new Color(33, 41, 103, 200));
+        franjaDetalle.setBorder(BorderFactory.createEmptyBorder(6, 14, 6, 8));
         JLabel lblDetalle = setLabel(detalle, 16, 3, 'L');
-        lblDetalle.setForeground(UIManager.getColor("keuni.color"));
-        contenido.add(lblDetalle, gbc);
+        lblDetalle.setForeground(UIManager.getColor("bankya.color"));
+        franjaDetalle.add(lblDetalle, BorderLayout.WEST);
+        bloqueIzquierdo.add(franjaDetalle, BorderLayout.SOUTH);
 
-        gbc.gridx = 1; gbc.gridy = 0; gbc.gridheight = 2;
-        gbc.anchor = GridBagConstraints.EAST;
-        gbc.insets = new Insets(8, 40, 8, 30);
-        String horarioTexto = (horario.isEmpty() ? "" : "Horario. " + horario);
-        JLabel lblHorario = setLabel(horarioTexto, 16, 2, 'L');
-        lblHorario.setForeground(UIManager.getColor("keuni.color"));
-        contenido.add(lblHorario, gbc);
+        JPanel bloqueDerecho = new JPanel(new BorderLayout());
+        bloqueDerecho.setOpaque(true);
+        bloqueDerecho.setBackground(new Color(14, 20, 57, 240));
+        bloqueDerecho.setBorder(BorderFactory.createEmptyBorder(16, 24, 16, 24));
+        bloqueDerecho.setPreferredSize(new Dimension(260, 130));
+
+        String horarioTexto = horario.isBlank() ? "Horario.<br>No Disponible" : "Horario.<br>" + horario;
+        JLabel lblHorario = setLabel("<html>" + horarioTexto + "</html>", 17, 2, 'L');
+        lblHorario.setForeground(UIManager.getColor("bankya.color"));
+        bloqueDerecho.add(lblHorario, BorderLayout.CENTER);
+
+        contenido.add(bloqueIzquierdo, BorderLayout.CENTER);
+        contenido.add(bloqueDerecho, BorderLayout.EAST);
 
         tarjeta.add(colorBar, BorderLayout.WEST);
         tarjeta.add(contenido, BorderLayout.CENTER);
 
         return tarjeta;
-    }
-
-    // Panel de selección para el docente (puedes adaptar lógica si quieres que el docente solicite grupo/materia)
-    private JPanel panelSeleccionMateriaHorario() {
-        // Ejemplo: materias y horarios disponibles para docentes (puedes poblar dinámicamente si lo deseas)
-        String[] materias = {"Selecciona una materia...", "Programación Orientada a Objetos", "Cálculo Integral", "Electrónica Básica"};
-        Map<String, String[]> horariosPorMateria = new HashMap<>();
-        horariosPorMateria.put("Programación Orientada a Objetos", new String[]{"10:00 am – 14:00 pm", "12:00 pm – 16:00 pm"});
-        horariosPorMateria.put("Cálculo Integral", new String[]{"07:00 am – 11:00 am"});
-        horariosPorMateria.put("Electrónica Básica", new String[]{"09:00 am – 12:00 pm", "04:00 pm – 07:00 pm"});
-
-        return crearPanelSeleccionMateriaHorario(
-            materias,
-            horariosPorMateria,
-            e -> {
-                String[] seleccion = e.getActionCommand().split(",");
-                String materia = seleccion[0];
-                String horario = seleccion.length > 1 ? seleccion[1] : "";
-                if (materia.equals("Selecciona una materia...") || horario.equals("Selecciona un horario...") || horario.isEmpty()) {
-                    JOptionPane.showMessageDialog(this, "Por favor selecciona una materia y un horario.");
-                } else {
-                    JOptionPane.showMessageDialog(this, "Materia: " + materia + "\nHorario: " + horario);
-                }
-            }
-        );
     }
 }
